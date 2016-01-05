@@ -1,12 +1,8 @@
 /**
  * Created by baxie on 16-12-15.
  */
-public class Product implements Comparable{
+public class Product extends Space implements Comparable{
 
-    //dimension of the product in millimeters
-    private int length;
-    private int width;
-    private int height;
 
     //value of product
     private int value;
@@ -22,19 +18,11 @@ public class Product implements Comparable{
      */
     public Product(int length, int width, int height, int value, String name) throws IllegalArgumentException
     {
-        if(length <= 0 || width <= 0 || height <= 0 || value <= 0)
-        {
-            throw new IllegalArgumentException();
-        }
-        //set dimension
-        this.length = length;
-        this.height = height;
-        this.width  = width;
+        super(length, width, height);
         //set value and name
         this.value = value;
         this.name = name;
         this.valueDensity = computeValueDensity(value, getVolume());
-
     }
 
     /**
@@ -57,36 +45,6 @@ public class Product implements Comparable{
     public int getValue() { return value;}
 
     /**
-     * returns the 3d volume of the product in millimeters to the power of 3
-     * @return the millimters ^ 3 volume  as a long
-     */
-    public long getVolume() { return (long)length*height*width;}
-
-    /**
-     * returns the length of the product
-     * @return the length of the product in millimeters
-     */
-    public int getLength() {
-        return length;
-    }
-
-    /**
-     * returns the width of the product
-     * @return the width of the product in millimeters
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * returns the height of the product
-     * @return the height of the product in millimeters
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
      * returns the name of the product
      * @return the name oif the product
      */
@@ -95,6 +53,10 @@ public class Product implements Comparable{
         return name;
     }
 
+    /**
+     * returns the value density of the product. The value density is the value per cubic meter
+     * @return the value of the product per cubic meter
+     */
     public double getValueDensity()
     {
         return valueDensity;
@@ -106,7 +68,8 @@ public class Product implements Comparable{
      */
     public Product clone()
     {
-        return new Product(length, width, height, value, name);
+        return new Product(super.getLength(), super.getWidth(),
+                super.getWidth(), value, name);
     }
 
     @Override
@@ -127,8 +90,11 @@ public class Product implements Comparable{
         else
         {
             Product product = (Product) object;
-            return (product.getHeight() == height) && (product.getWidth() == width)
-                    && (product.getLength() == length) && product.getName().equals(name);
+            return (product.getHeight() == super.getHeight())
+                    && (product.getWidth() == super.getWidth())
+                    && (product.getLength() == super.getLength())
+                    && product.getName().equals(name)
+                    && product.getValue() == value;
         }
     }
 
@@ -139,6 +105,7 @@ public class Product implements Comparable{
         result = 31 * result + getHeight();
         result = 31 * result + getValue();
         result = 31 * result + getName().hashCode();
+        result = 31 * result + getValue();
         return result;
     }
 
@@ -147,7 +114,7 @@ public class Product implements Comparable{
     {
         return String.format("product description: %nName: %s length: %d width: %d height: %d value: $%d " +
                 "cubic millimeters: %d value density: %f\n",
-                name, length, width, height, value, getVolume(), valueDensity);
+                name, super.getLength(), super.getWidth(), super.getHeight(), value, getVolume(), valueDensity);
     }
 
     @Override

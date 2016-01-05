@@ -5,17 +5,7 @@ import java.util.Scanner;
 /**
  * Created by baxie on 16-12-15.
  */
-public class Truck {
-
-    //dimension of the truck in millimeters
-    private int length;
-    private int width;
-    private int height;
-    private long volume;
-    //i choose long because
-    //               165,000,000,000 is the volume of the truck in the booklet
-    //int              2,147,483,647
-    //long 9,223,372,036,854,775,807
+public class Truck extends Space{
 
     //content of the truck
     private ArrayList<Product> content;
@@ -28,11 +18,7 @@ public class Truck {
      * @param height the height of the truck in millimeters
      */
     public Truck(int length, int width, int height) {
-        //setting dimension
-        this.length = length;
-        this.width = width;
-        this.height = height;
-        this.volume = (long)length * (long)width * (long)height;
+        super(length, width, height);
         //setting content
         this.content = new ArrayList<>();
     }
@@ -50,7 +36,7 @@ public class Truck {
     public void add(Product product) throws TruckFillFailException
     {
         long newVolume = product.getVolume() + this.filledVolume;
-        if( newVolume > this.volume)
+        if( newVolume > super.getVolume())
         {
             throw new TruckFillFailException("adding the product will exceed the volume of the truck");
         }
