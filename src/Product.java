@@ -26,14 +26,14 @@ public class Product extends Space implements Comparable{
     }
 
     /**
-     * calculates the value / cubic meter of this product
+     * calculates the value per cubic meter of this product
      * @param value the value in euros
-     * @param volume the volume in cubic millimeters
+     * @param volume the volume in cubic centimeters
      * @return the value per cubic meter of this product
      */
     private double computeValueDensity(int value, long volume)
     {
-        long valueLong = (long) value * 1000000000;
+        long valueLong = (long) value * 1000000;
         double valueDensity = (double)valueLong / (double)volume;
         return valueDensity;
     }
@@ -46,7 +46,7 @@ public class Product extends Space implements Comparable{
 
     /**
      * returns the name of the product
-     * @return the name oif the product
+     * @return the name of the product
      */
     public String getName()
     {
@@ -99,6 +99,9 @@ public class Product extends Space implements Comparable{
     }
 
     @Override
+    /**
+     * Hashcode override so equals() method.
+     */
     public int hashCode() {
         int result = getLength();
         result = 31 * result + getWidth();
@@ -110,14 +113,21 @@ public class Product extends Space implements Comparable{
     }
 
     @Override
+    /**
+     * Returns a String format of the dimensions, volume and value of the product
+     */
     public String toString()
     {
         return String.format("product description: %nName: %s length: %d width: %d height: %d value: $%d " +
-                "cubic millimeters: %d value density: %f\n",
+                "cubic centimeters: %d value density: %f\n",
                 name, super.getLength(), super.getWidth(), super.getHeight(), value, getVolume(), valueDensity);
     }
 
     @Override
+    /**
+     * Returns 0 if the value density of the compared product is equal, -1 if the value density is less
+     * and 1 if the value density is higher.
+     */
     public int compareTo(Object object)
     {
         if ((object == null) )

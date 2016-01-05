@@ -19,16 +19,16 @@ public class Knapsack {
 
         //create a set of products
         //product A, B and C as described in the project booklet
-        Product A = new Product(1000, 1000, 2000, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
-        Product B = new Product(1000, 1500, 2000, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(1500, 1500, 1500, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product A = new Product(100, 100, 200, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(100, 150, 200, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(150, 150, 150, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
         //creation of set
         Product[] set = createRandomProductArray(originals, rng);
 
         //create a truck as described in the project booklet and fill it with the made set
-        Truck truck = new Truck(16500, 2500, 4000);
+        Truck truck = new Truck(1650, 250, 400);
         greedyFill(truck, set);
         System.out.println(truck);
 
@@ -36,7 +36,8 @@ public class Knapsack {
 
     public static void greedyFill(Truck truck, Product[] set)
     {
-        System.out.println("####################################################");
+        System.out.println("####################GREEDY_FILL################################");
+        long beginTime = System.nanoTime();
         //sort the set from lowest to heighest value/volume rating(value density)
         Arrays.sort(set);
 
@@ -60,14 +61,18 @@ public class Knapsack {
                 break;
             }
         }
+        long endTime = System.nanoTime();
+        System.out.printf("Execution time: %.3f ms\n", ((double)endTime - beginTime) / 10e6);
+        System.out.println("###############################################################");
     }
 
     public static Product[] createRandomProductArray(Product[] originals, Random rng)
     {
         Product[] initalSet = new Product[originals.length * MAXIMUM_FREQUENCY];
         int index = 0;
+        int frequency = 10;
         for (Product product : originals) {
-            int frequency = MINIMUM_FREQUENCY + rng.nextInt(MAXIMUM_FREQUENCY - MINIMUM_FREQUENCY);
+            frequency += 10;
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
             for (int i = 0; i < frequency; i++) {
                 initalSet[index] = product.clone();

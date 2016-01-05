@@ -12,6 +12,9 @@ public class Space {
     //int              2,147,483,647
     //long 9,223,372,036,854,775,807
 
+    /**
+     * Construct a space with a length, width and height of 1 centimeter
+     */
     public Space()
     {
         length = 1;
@@ -20,6 +23,13 @@ public class Space {
         volume = 1;
     }
 
+    /**
+     * Construct a spce with a given length, width and height in centimeters
+     * @param length the length in centimeters
+     * @param width the width in centimeters
+     * @param height the height in centimeters
+     * @throws IllegalArgumentException when the specified length, width or height are smaller than or equal to 0.
+     */
     public Space(int length, int width, int height) throws IllegalArgumentException {
         if(length <= 0 || width <= 0 || height <= 0)
         {
@@ -28,12 +38,12 @@ public class Space {
         this.length = length;
         this.width = width;
         this.height = height;
-        this.volume = height * width * height;
+        this.volume = height * width * length;
     }
 
     /**
      * returns the 3d volume of the product in cubic centimeters
-     * @return the millimters ^ 3 volume  as a long
+     * @return the cubic centimeter volume
      */
     public int getVolume() { return volume;}
 

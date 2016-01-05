@@ -9,13 +9,13 @@ public class Truck extends Space{
 
     //content of the truck
     private ArrayList<Product> content;
-    private long filledVolume;
+    private int filledVolume;
 
     /**
      * Construct a Truck object with a 3d volume
-     * @param length the length of the truck in millimeters
-     * @param width the width of the truck in millimeters
-     * @param height the height of the truck in millimeters
+     * @param length the length of the truck in centimeters
+     * @param width the width of the truck in centimeters
+     * @param height the height of the truck in centimeters
      */
     public Truck(int length, int width, int height) {
         super(length, width, height);
@@ -23,6 +23,9 @@ public class Truck extends Space{
         this.content = new ArrayList<>();
     }
 
+    /**
+     * Exception for when a product cannot be added to the truck for whatever reason. Usually there is no space left.
+     */
     public class TruckFillFailException extends Exception
     {
         public TruckFillFailException() { }
@@ -33,9 +36,14 @@ public class Truck extends Space{
         }
     }
 
+    /**
+     * Add a product to the truck.
+     * @param product the product to be added to the truck
+     * @throws TruckFillFailException when the product cannot be added to the truck.
+     */
     public void add(Product product) throws TruckFillFailException
     {
-        long newVolume = product.getVolume() + this.filledVolume;
+        int newVolume = product.getVolume() + this.filledVolume;
         if( newVolume > super.getVolume())
         {
             throw new TruckFillFailException("adding the product will exceed the volume of the truck");
@@ -47,6 +55,10 @@ public class Truck extends Space{
         }
     }
 
+    /**
+     * returns the sum of all the products currently in the truck
+     * @return the sum of the values of all products in the truck
+     */
     public int getValue()
     {
         int value = 0;
@@ -57,6 +69,11 @@ public class Truck extends Space{
         return value;
     }
 
+    /**
+     * Return the products and their frequency currently in the truck
+     * @return a hashmap with all the individual products in the truck as keys and their frequency
+     * as value pair.
+     */
     public HashMap<Product, Integer> getContent()
     {
         HashMap<Product, Integer> content = new HashMap<>();
@@ -75,6 +92,9 @@ public class Truck extends Space{
     }
     
     @Override
+    /**
+     * Returns a String format of the products in the truck and the sum of the value of all products
+     */
     public String toString()
     {
         String truckString = "The truck has the following content:\n";
