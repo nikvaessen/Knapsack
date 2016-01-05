@@ -5,11 +5,11 @@ import java.util.Scanner;
 /**
  * Created by baxie on 16-12-15.
  */
-public class Truck extends Space{
+public class Truck extends HollowSpace{
 
     //content of the truck
     private ArrayList<Product> content;
-    private int filledVolume;
+    private int[][][] truckSpace;
 
     /**
      * Construct a Truck object with a 3d volume
@@ -21,6 +21,7 @@ public class Truck extends Space{
         super(length, width, height);
         //setting content
         this.content = new ArrayList<>();
+        this.truckSpace = new int[length][width][height];
     }
 
     /**
@@ -43,14 +44,14 @@ public class Truck extends Space{
      */
     public void add(Product product) throws TruckFillFailException
     {
-        int newVolume = product.getVolume() + this.filledVolume;
+        //broken, needs to be fixed with the HollowSpace class
+        int newVolume = product.getVolume();
         if( newVolume > super.getVolume())
         {
             throw new TruckFillFailException("adding the product will exceed the volume of the truck");
         }
         else
         {
-            filledVolume = newVolume;
             content.add(product);
         }
     }
