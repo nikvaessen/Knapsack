@@ -6,6 +6,7 @@ import java.util.Arrays;
  */
 public class HollowSpace extends Space {
 
+
     public static void main(String[] argv)
     {
 //        HollowSpace space = new HollowSpace(10,10,10);
@@ -32,6 +33,7 @@ public class HollowSpace extends Space {
     }
 
     public int[][][] space;
+    int nextX,nextY, nextZ;
 
     public HollowSpace(int length, int width, int height) throws IllegalArgumentException {
         super(length, width, height);
@@ -58,10 +60,17 @@ public class HollowSpace extends Space {
     {
         try
         {
-            int y = 0;
-            int z = 0;
-            int x = 0;
-            fill(object, value,  x, z, y);
+            System.out.println("length of object " + object.getLength() + "width of object " +
+                    object.getWidth() + "height of object " + object.getHeight()  );
+            System.out.println("x before:" + nextX);
+            System.out.println("y before:" + nextY);
+            System.out.println("z before:" + nextZ);
+            updateCoordinates(object);
+            System.out.println("x after:" + nextX);
+            System.out.println("y after:" + nextY);
+            System.out.println("z after:" + nextZ);
+            fill(object, value, nextX + 1,nextZ + 1, nextY + 1);
+
         }
         catch (NoRoomException e)
         {
@@ -146,5 +155,40 @@ public class HollowSpace extends Space {
             }
         }
         return copy;
+    }
+
+    public void updateCoordinates(Space object) throws NoRoomException
+    {
+        try
+        {
+            int objectLength = object.getLength();
+            int objectWidth  = object.getWidth();
+            int objectHeight = object.getHeight();
+
+            if(nextZ + objectWidth >= super.getWidth())
+            {
+                nextY=nextY+objectHeight;
+                nextZ=0;
+            }
+            else if(nextY+objectHeight>super.getHeight())
+            {
+                nextX=nextX+objectLength;
+                nextY=0;
+                nextZ=0;
+            }
+            else
+            {
+                nextZ=nextZ+objectWidth;
+            }
+
+            if(nextX  >= space.length || nextZ >= space[0].length || nextY>= space[0][0].length)
+            {
+                throw new NoRoomException();
+            }
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            throw new NoRoomException();
+        }
     }
 }

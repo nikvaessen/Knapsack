@@ -11,9 +11,9 @@ public class Product extends Space implements Comparable{
 
     /**
      * constructor for a product with a certain 3d volume and a value
-     * @param length the length of the product in millimeters
-     * @param width the width of the product in millimeters
-     * @param height the height of the product in millimeters
+     * @param length the length of the product in decimeters
+     * @param width the width of the product in decimeters
+     * @param height the height of the product in decimeters
      * @param value the value of the product in euros
      */
     public Product(int length, int width, int height, int value, String name) throws IllegalArgumentException
@@ -28,12 +28,12 @@ public class Product extends Space implements Comparable{
     /**
      * calculates the value per cubic meter of this product
      * @param value the value in euros
-     * @param volume the volume in cubic centimeters
+     * @param volume the volume in cubic decimeters
      * @return the value per cubic meter of this product
      */
     private double computeValueDensity(int value, long volume)
     {
-        long valueLong = (long) value * 1000000;
+        long valueLong = (long) value * 1000;
         double valueDensity = (double)valueLong / (double)volume;
         return valueDensity;
     }

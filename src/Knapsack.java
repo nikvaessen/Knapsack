@@ -19,9 +19,9 @@ public class Knapsack {
 
         //create a set of products
         //product A, B and C as described in the project booklet
-        Product A = new Product(100, 100, 200, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
-        Product B = new Product(100, 150, 200, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(150, 150, 150, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
         //creation of set
@@ -29,7 +29,7 @@ public class Knapsack {
         System.out.println("Sorting finished");
 
         //create a truck as described in the project booklet and fill it with the made set
-        Truck truck = new Truck(1650, 250, 400);
+        Truck truck = new Truck(165, 25, 40);
         greedyFill(truck, set);
         System.out.println(truck);
     }
@@ -38,10 +38,10 @@ public class Knapsack {
     {
         System.out.println("####################GREEDY_FILL################################");
         long beginTime = System.nanoTime();
-        //sort the set from lowest to heighest value/volume rating(value density)
+        //sort the set from lowest to highest value/volume rating(value density)
         Arrays.sort(set);
 
-        //begin filling the truck with the highets vlaue density until the truck is full or there are no more products
+        //begin filling the truck with the highest value density until the truck is full or there are no more products
         int index = set.length - 1;
         while(true)
         {
