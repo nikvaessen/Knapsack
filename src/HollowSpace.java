@@ -36,18 +36,49 @@ public class HollowSpace extends Space {
         }
     }
 
-    public boolean fill(Space object) throws NoRoomException
+    /**
+     * Fills the space at the next empty location. The next location is found by
+     * @param object
+     * @param value
+     * @throws NoRoomException
+     */
+    public void fill(Space object, int value) throws NoRoomException
     {
-        return true;
+        try
+        {
+            int height = 0;
+            int width = 0;
+            int length = 0;
+            fill(object, value,  height, width, length);
+        }
+        catch (NoRoomException e)
+        {
+            throw e;
+        }
     }
 
-    public boolean fill(Space object, int length, int width, int height) throws NoRoomException
+    public void fill(Space object, int value, int length, int width, int height) throws NoRoomException
     {
-        return true;
+        try
+        {
+            int objectLength = object.getLength();
+            int objectWidth  = object.getWidth();
+            int objectHeight = object.getHeight();
+            //for(int i = length; )
+        }
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            throw new NoRoomException();
+        }
     }
 
+    /**
+     * retruns a copy of the 3 dimensional array of the HollowSpace
+     * @return 3 dimensional array of integers
+     */
     public int[][][] getSpace()
     {
+        int[][][] copy=
         return space;
     }
 
