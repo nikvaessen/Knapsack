@@ -26,12 +26,12 @@ public class Knapsack {
 
         //creation of set
         Product[] set = createRandomProductArray(originals, rng);
+        System.out.println("Sorting finished");
 
         //create a truck as described in the project booklet and fill it with the made set
         Truck truck = new Truck(1650, 250, 400);
         greedyFill(truck, set);
         System.out.println(truck);
-
     }
 
     public static void greedyFill(Truck truck, Product[] set)
@@ -45,12 +45,13 @@ public class Knapsack {
         int index = set.length - 1;
         while(true)
         {
+            System.out.printf("Putting Product with index %d in truck\n", index);
             try
             {
                 truck.add(set[index].clone());
                 index--;
             }
-            catch( Truck.TruckFillFailException e)
+            catch( HollowSpace.NoRoomException e)
             {
                 System.out.print("Truck is full\n");
                 break;

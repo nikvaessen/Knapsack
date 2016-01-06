@@ -28,13 +28,12 @@ public class Truck extends HollowSpace{
      */
     public void add(Product product) throws NoRoomException
     {
-        if(super.canFit(product))
-        {
+        try{
             super.fill(product, content.size());
             content.add(product);
         }
-        else{
-            throw new NoRoomException();
+        catch(NoRoomException e){
+            throw e;
         }
     }
 
