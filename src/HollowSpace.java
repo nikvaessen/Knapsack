@@ -17,6 +17,18 @@ public class HollowSpace extends Space {
 //        {
 //            e.printStackTrace();
 //        }
+        int[][][] array = new int[3][3][3];
+        for(int i = 0; i < array.length; i++)
+        {
+            for(int j = 0; j < array[0].length; j++)
+            {
+                for(int k = 0; k < array[0][0].length; k++)
+                {
+                    System.out.println(array[i][j][k]);
+                }
+            }
+        }
+        System.out.printf("Length: %d width: %d height: %d\n", array.length, array[0].length, array[9][0].length);
     }
 
     public int[][][] space;
@@ -46,10 +58,10 @@ public class HollowSpace extends Space {
     {
         try
         {
-            int height = 0;
-            int width = 0;
-            int length = 0;
-            fill(object, value,  height, width, length);
+            int y = 0;
+            int z = 0;
+            int x = 0;
+            fill(object, value,  x, z, y);
         }
         catch (NoRoomException e)
         {
@@ -57,19 +69,43 @@ public class HollowSpace extends Space {
         }
     }
 
-    public void fill(Space object, int value, int length, int width, int height) throws NoRoomException
+    public void fill(Space object, int value, int x, int z, int y) throws NoRoomException
     {
         try
         {
             int objectLength = object.getLength();
             int objectWidth  = object.getWidth();
             int objectHeight = object.getHeight();
-            //for(int i = length; )
+            if(x + objectLength >= space.length || z + objectWidth >= space[0].length ||
+                    y + objectHeight >= space[0][0].length)
+            {
+                throw new NoRoomException();
+            }
+            for(int i = x; i < objectLength; i++)
+            {
+                for(int j = z; j < objectWidth; j++)
+                {
+                    for(int k = y; k < objectHeight; k++)
+                    {
+                        space[i][j][k] = value;
+                    }
+                }
+            }
         }
         catch(ArrayIndexOutOfBoundsException e)
         {
             throw new NoRoomException();
         }
+    }
+
+    public int getValueAtPosition(int x, int z, int y)
+    {
+        return space[x][z][y];
+    }
+
+    public void emptySpace()
+    {
+        space = new int[super.getLength()][super.getWidth()][super.getHeight()];
     }
 
     /**
@@ -78,9 +114,17 @@ public class HollowSpace extends Space {
      */
     public int[][][] getSpace()
     {
-        int[][][] copy=
-        return space;
+        int[][][] copy = new int[super.getLength()][super.getWidth()][super.getHeight()];
+        for(int i = 0; i < copy.length; i++)
+        {
+            for(int j = 0; j < copy[0].length; j++)
+            {
+                for(int k = 0; k < copy[0][0].length; k++)
+                {
+                    copy[i][j][k] = space[i][j][k];
+                }
+            }
+        }
+        return copy;
     }
-
-    private
 }
