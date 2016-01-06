@@ -97,6 +97,26 @@ public class HollowSpace extends Space {
             throw new NoRoomException();
         }
     }
+    
+    public boolean canFit(Space object, int x, int z, int y)
+    {
+        int objectLength = object.getLength();
+        int objectWidth  = object.getWidth();
+        int objectHeight = object.getHeight();
+        if(x + objectLength >= space.length || z + objectWidth >= space[0].length ||
+                y + objectHeight >= space[0][0].length)
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    //// TODO: 1/6/16 finish method 
+    public boolean canFit(Space object)
+    {
+        //need to sheck if the fill method will be able to place the new product
+        return false;
+    }
 
     public int getValueAtPosition(int x, int z, int y)
     {

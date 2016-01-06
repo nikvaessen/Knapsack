@@ -6,10 +6,8 @@ import java.util.Scanner;
  * Created by baxie on 16-12-15.
  */
 public class Truck extends HollowSpace{
-
     //content of the truck
     private ArrayList<Product> content;
-    private int[][][] truckSpace;
 
     /**
      * Construct a Truck object with a 3d volume
@@ -21,38 +19,22 @@ public class Truck extends HollowSpace{
         super(length, width, height);
         //setting content
         this.content = new ArrayList<>();
-        this.truckSpace = new int[length][width][height];
-    }
-
-    /**
-     * Exception for when a product cannot be added to the truck for whatever reason. Usually there is no space left.
-     */
-    public class TruckFillFailException extends Exception
-    {
-        public TruckFillFailException() { }
-
-        public TruckFillFailException(String message)
-        {
-            super(message);
-        }
     }
 
     /**
      * Add a product to the truck.
      * @param product the product to be added to the truck
-     * @throws TruckFillFailException when the product cannot be added to the truck.
+     * @throws HollowSpace.NoRoomException when the product cannot be added to the truck.
      */
-    public void add(Product product) throws TruckFillFailException
+    public void add(Product product) throws NoRoomException
     {
-        //broken, needs to be fixed with the HollowSpace class
-        int newVolume = product.getVolume();
-        if( newVolume > super.getVolume())
+        if(super.canFit(product))
         {
-            throw new TruckFillFailException("adding the product will exceed the volume of the truck");
-        }
-        else
-        {
+            super.fill(product, content.size());
             content.add(product);
+        }
+        else{
+            throw new NoRoomException();
         }
     }
 
