@@ -21,7 +21,7 @@ public class Knapsack {
         //product A, B and C as described in the project booklet
         Product A = new Product(1000, 1000, 2000, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Product B = new Product(1000, 1500, 2000, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(1500, 1500, 1500, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product C = new Product(1500, 1500, 1500, 7 /*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
         //creation of set
