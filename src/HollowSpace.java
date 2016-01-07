@@ -70,7 +70,6 @@ public class HollowSpace extends Space {
             System.out.println("y after:" + nextY);
             System.out.println("z after:" + nextZ);
             fill(object, value, nextX + 1,nextZ + 1, nextY + 1);
-
         }
         catch (NoRoomException e)
         {

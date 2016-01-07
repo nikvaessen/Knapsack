@@ -29,9 +29,22 @@ public class Knapsack {
         System.out.println("Sorting finished");
 
         //create a truck as described in the project booklet and fill it with the made set
+
+        long memFreeBefore = Runtime.getRuntime().freeMemory();
         Truck truck = new Truck(165, 25, 40);
-        greedyFill(truck, set);
-        System.out.println(truck);
+        long memFreeAfter =  Runtime.getRuntime().freeMemory();
+        System.out.printf("Truck needs: %d bytes\n", Math.abs(memFreeBefore - memFreeAfter));
+        try{
+            truck.fill(originals[0],15,0,0,0);
+        }
+        catch(HollowSpace.NoRoomException e)
+        {
+            e.printStackTrace();
+        }
+        truck.printTruckCoronally(20);
+
+        //greedyFill(truck, set);
+        //System.out.println(truck);
     }
 
     public static void greedyFill(Truck truck, Product[] set)
