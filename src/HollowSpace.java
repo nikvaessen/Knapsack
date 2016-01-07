@@ -167,18 +167,27 @@ public class HollowSpace extends Space {
 
             if(nextZ + objectWidth >= super.getWidth())
             {
-                nextY=nextY+objectHeight;
+                int n=0;
+                for(int i=0; i<super.getHeight(); i++)
+                    if(getValueAtPosition(nextX, nextZ, i) !=0) n++;
+                nextY=n+1;
                 nextZ=0;
             }
             else if(nextY+objectHeight>super.getHeight())
             {
-                nextX=nextX+objectLength;
+                int n=0;
+                for(int i=0; i<super.getLength(); i++)
+                    if(getValueAtPosition(i, nextZ, nextY) !=0) n++;
+                nextX=n+1;
                 nextY=0;
                 nextZ=0;
             }
             else
             {
-                nextZ=nextZ+objectWidth;
+                int n=0;
+                for(int i=0; i<super.getWidth(); i++)
+                    if(getValueAtPosition(nextX, i, nextY) !=0) n++;
+                nextZ=n+1;
             }
 
             if(nextX  >= space.length || nextZ >= space[0].length || nextY>= space[0][0].length)
