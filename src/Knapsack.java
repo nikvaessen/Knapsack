@@ -35,14 +35,28 @@ public class Knapsack {
         long memFreeAfter =  Runtime.getRuntime().freeMemory();
         System.out.printf("Truck needs: %d bytes\n", Math.abs(memFreeBefore - memFreeAfter));
         greedyFill(truck, set);
-//        int loops = 50;
-//        for(int i = 0; i < loops; i++)
-//        {
-//            truck.add(originals[0]);
-//        }
 //        truck.printTruckCoronally(30);
         truck.printTruckCoronally(165, 5);
         System.out.println(truck);
+    }
+
+    public static void testShit() throws HollowSpace.NoRoomException
+    {
+        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product[] originals = {A, B, C};
+        Product[] rotA = originals[0].getRotations();
+        for(int i = 0; i < rotA.length; i++)
+        {
+            Truck truck = new Truck(165, 25, 40);
+            Product p = rotA[i];
+            System.out.printf("Placing a truck with length: %d width: %d height: %d \n",
+                    p.getLength(), p.getWidth(), p.getHeight());
+            truck.fill(p,5,0,0,0);
+            truck.printTruckCoronally(21,3);
+        }
+
     }
 
     public static void greedyFill(Truck truck, Product[] set)

@@ -107,8 +107,13 @@ public class Truck extends HollowSpace{
                 }
                 System.out.println();
             }
-            System.out.println();
         }
+        System.out.print("    ");
+        for(int n = 1; n < getWidth() + 1; n++)
+        {
+            System.out.printf("%2d", n);
+        }
+        System.out.println();
     }
 
     public void printTruckCoronally()
@@ -128,8 +133,13 @@ public class Truck extends HollowSpace{
                 }
                 System.out.println();
             }
-            System.out.println();
         }
+        System.out.print("    ");
+        for(int n = 1; n < getWidth() + 1; n++)
+        {
+            System.out.printf("%2d", n);
+        }
+        System.out.println();
     }
 
     public void printTruckCoronally(int upToLength, int interval)
@@ -149,8 +159,13 @@ public class Truck extends HollowSpace{
                 }
                 System.out.println();
             }
-            System.out.println();
         }
+        System.out.print("    ");
+        for(int n = 1; n < getWidth() + 1; n++)
+        {
+            System.out.printf("%2d ", n);
+        }
+        System.out.println();
     }
 
 

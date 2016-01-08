@@ -9,7 +9,6 @@ public class Product extends Space implements Comparable{
     private String name;
     private double valueDensity; //value density is the value of the product per cubic meter
 
-
     /**
      * constructor for a product with a certain 3d volume and a value
      * @param length the length of the product in decimeters
@@ -70,7 +69,19 @@ public class Product extends Space implements Comparable{
     public Product clone()
     {
         return new Product(super.getLength(), super.getWidth(),
-                super.getWidth(), value, name);
+                super.getHeight(), value, name);
+    }
+
+    public Product[] getRotations()
+    {
+        Product[] rotation = new Product[6];
+        rotation[0] = this.clone();
+        rotation[1] = new Product(getLength(),getHeight(),getWidth() ,value, name);
+        rotation[2] = new Product(getWidth() ,getLength(),getHeight(),value, name);
+        rotation[3] = new Product(getWidth() ,getHeight(),getLength(),value, name);
+        rotation[4] = new Product(getHeight(),getWidth() ,getLength(),value, name);
+        rotation[5] = new Product(getHeight(),getLength(),getWidth() ,value, name);
+        return rotation;
     }
 
     @Override
