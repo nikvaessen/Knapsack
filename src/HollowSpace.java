@@ -38,6 +38,16 @@ public class HollowSpace extends Space {
     public HollowSpace(int length, int width, int height) throws IllegalArgumentException {
         super(length, width, height);
         space = new int[length][width][height];
+        for(int x = 0; x < super.getLength(); x++)
+        {
+            for(int z = 0; z < super.getWidth(); z++)
+            {
+                for(int y = 0; y < super.getHeight(); y++)
+                {
+                    space[x][z][y] = -1;
+                }
+            }
+        }
     }
 
     public class NoRoomException extends Exception
@@ -60,16 +70,11 @@ public class HollowSpace extends Space {
     {
         try
         {
-            System.out.println("length of object " + object.getLength() + "width of object " +
-                    object.getWidth() + "height of object " + object.getHeight()  );
-            System.out.println("x before:" + nextX);
-            System.out.println("y before:" + nextY);
-            System.out.println("z before:" + nextZ);
-            updateCoordinates(object);
-            System.out.println("x after:" + nextX);
-            System.out.println("y after:" + nextY);
-            System.out.println("z after:" + nextZ);
-            fill(object, value, nextX + 1,nextZ + 1, nextY + 1);
+            int[] coords = getViableCoordinates(object);
+            System.out.println("length of object " + object.getLength() + " width of object " +
+                    object.getWidth() + " height of object " + object.getHeight()  + " placing object at:"
+             + Arrays.toString(coords));
+            fill(object, value, coords[0], coords[1], coords[2]);
         }
         catch (NoRoomException e)
         {
@@ -89,13 +94,13 @@ public class HollowSpace extends Space {
             {
                 throw new NoRoomException();
             }
-            for(int i = x; i < objectLength; i++)
+            for(int i = 0; i < objectLength; i++)
             {
-                for(int j = z; j < objectWidth; j++)
+                for(int j = 0; j < objectWidth; j++)
                 {
-                    for(int k = y; k < objectHeight; k++)
+                    for(int k = 0; k < objectHeight; k++)
                     {
-                        space[i][j][k] = value;
+                        space[i+x][j+z][k+y] = value;
                     }
                 }
             }
@@ -111,10 +116,26 @@ public class HollowSpace extends Space {
         int objectLength = object.getLength();
         int objectWidth  = object.getWidth();
         int objectHeight = object.getHeight();
+        //check for out of bounds
         if(x + objectLength >= space.length || z + objectWidth >= space[0].length ||
                 y + objectHeight >= space[0][0].length)
         {
             return false;
+        }
+        //check for products already in place
+        for(int i = 0 ; i < objectLength; i++)
+        {
+            for(int j = 0; z < objectWidth; z++)
+            {
+                for(int k = 0; y < objectHeight; y++)
+                {
+                    int value = space[x][z][y];
+                    if(value != -1 )
+                    {
+                        return false;
+                    }
+                }
+            }
         }
         return true;
     }
@@ -156,43 +177,26 @@ public class HollowSpace extends Space {
         return copy;
     }
 
-    public void updateCoordinates(Space object) throws NoRoomException
+    public int[] getViableCoordinates(Space object) throws NoRoomException
     {
         try
         {
-            int objectLength = object.getLength();
-            int objectWidth  = object.getWidth();
-            int objectHeight = object.getHeight();
-
-            if(nextZ + objectWidth >= super.getWidth())
+            for(int x = 0; x < super.getLength(); x++)
             {
-                int n=0;
-                for(int i=0; i<super.getHeight(); i++)
-                    if(getValueAtPosition(nextX, nextZ, i) !=0) n++;
-                nextY=n+1;
-                nextZ=0;
+                for(int y = 0; y < super.getHeight(); y++)
+                {
+                    for(int z = 0; z < super.getWidth(); z++)
+                    {
+                        int value = space[x][z][y];
+                        if(value == -1 && canFit(object,x,z,y))
+                        {
+                            return new int[] {x,z,y};
+                        }
+                    }
+                }
             }
-            else if(nextY+objectHeight>super.getHeight())
-            {
-                int n=0;
-                for(int i=0; i<super.getLength(); i++)
-                    if(getValueAtPosition(i, nextZ, nextY) !=0) n++;
-                nextX=n+1;
-                nextY=0;
-                nextZ=0;
-            }
-            else
-            {
-                int n=0;
-                for(int i=0; i<super.getWidth(); i++)
-                    if(getValueAtPosition(nextX, i, nextY) !=0) n++;
-                nextZ=n+1;
-            }
-
-            if(nextX  >= space.length || nextZ >= space[0].length || nextY>= space[0][0].length)
-            {
-                throw new NoRoomException();
-            }
+            //it was not able to find a viable spot so there is no room anymore
+            throw new NoRoomException();
         }
         catch(ArrayIndexOutOfBoundsException e)
         {

@@ -13,7 +13,7 @@ public class Knapsack {
     public static final int MINIMUM_FREQUENCY = 20;
     public static final int MAXIMUM_FREQUENCY = 40;
     
-    public static void main(String[] argv) {
+    public static void main(String[] argv) throws HollowSpace.NoRoomException{
         //create rng
         Random rng = new Random(System.currentTimeMillis());
 
@@ -34,17 +34,15 @@ public class Knapsack {
         Truck truck = new Truck(165, 25, 40);
         long memFreeAfter =  Runtime.getRuntime().freeMemory();
         System.out.printf("Truck needs: %d bytes\n", Math.abs(memFreeBefore - memFreeAfter));
-        try{
-            truck.fill(originals[0],15,0,0,0);
-        }
-        catch(HollowSpace.NoRoomException e)
-        {
-            e.printStackTrace();
-        }
-        truck.printTruckCoronally(20);
-
-        //greedyFill(truck, set);
-        //System.out.println(truck);
+        greedyFill(truck, set);
+//        int loops = 50;
+//        for(int i = 0; i < loops; i++)
+//        {
+//            truck.add(originals[0]);
+//        }
+//        truck.printTruckCoronally(30);
+        truck.printTruckCoronally(165, 5);
+        System.out.println(truck);
     }
 
     public static void greedyFill(Truck truck, Product[] set)

@@ -31,6 +31,7 @@ public class Truck extends HollowSpace{
         try{
             super.fill(product, content.size());
             content.add(product);
+            System.out.println("Truck now has " + content.size() + " products");
         }
         catch(NoRoomException e){
             throw e;
@@ -116,6 +117,27 @@ public class Truck extends HollowSpace{
         int truckWidth  = super.getWidth();
         int truckHeight = super.getHeight();
         for(int i = 0; i < truckLength; i++)
+        {
+            System.out.printf("Coronal slide %d out of %d:\n", i + 1, truckLength);
+            for(int j = truckHeight - 1; j >= 0 ; j--)
+            {
+                System.out.printf("%2d: ", j + 1);
+                for(int k = 0; k < truckWidth; k++)
+                {
+                    System.out.printf("%2d ",space[i][k][j]);
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+    }
+
+    public void printTruckCoronally(int upToLength, int interval)
+    {
+        int truckLength = super.getLength();
+        int truckWidth  = super.getWidth();
+        int truckHeight = super.getHeight();
+        for(int i = 0; i < truckLength && i < upToLength; i += interval)
         {
             System.out.printf("Coronal slide %d out of %d:\n", i + 1, truckLength);
             for(int j = truckHeight - 1; j >= 0 ; j--)

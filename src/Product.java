@@ -9,6 +9,7 @@ public class Product extends Space implements Comparable{
     private String name;
     private double valueDensity; //value density is the value of the product per cubic meter
 
+
     /**
      * constructor for a product with a certain 3d volume and a value
      * @param length the length of the product in decimeters
