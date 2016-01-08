@@ -143,8 +143,14 @@ public class HollowSpace extends Space {
     //// TODO: 1/6/16 finish method 
     public boolean canFit(Space object)
     {
-        //need to sheck if the fill method will be able to place the new product
-        return false;
+        try{
+            int[] coords = getViableCoordinates(object);
+            return canFit(object, coords[0], coords[1], coords[2]);
+        }
+        catch(NoRoomException e)
+        {
+            return false;
+        }
     }
 
     public int getValueAtPosition(int x, int z, int y)

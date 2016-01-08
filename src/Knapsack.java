@@ -29,15 +29,9 @@ public class Knapsack {
         System.out.println("Sorting finished");
 
         //create a truck as described in the project booklet and fill it with the made set
-
-        long memFreeBefore = Runtime.getRuntime().freeMemory();
         Truck truck = new Truck(165, 25, 40);
-        long memFreeAfter =  Runtime.getRuntime().freeMemory();
-        System.out.printf("Truck needs: %d bytes\n", Math.abs(memFreeBefore - memFreeAfter));
-        greedyFill(truck, set);
-//        truck.printTruckCoronally(30);
-        truck.printTruckCoronally(165, 5);
-        System.out.println(truck);
+        //greedyFill(truck, set);
+        backTrackFill(truck, set);
     }
 
     public static void testShit() throws HollowSpace.NoRoomException
@@ -57,6 +51,48 @@ public class Knapsack {
             truck.printTruckCoronally(21,3);
         }
 
+    }
+
+    public static void backTrackFill(Truck truck, Product[] set)
+    {
+
+        System.out.println("####################BACKTRACK_FILL################################");
+        long beginTime = System.nanoTime();
+
+        //int value = backTrack(truck, getArrayCopy(set), 0);
+        //System.out.println("value of truck: " + value);
+
+        long endTime = System.nanoTime();
+        System.out.printf("Execution time: %.3f ms\n", ((double)endTime - beginTime) / 10e6);
+        System.out.println("##################################################################");
+
+    }
+
+    public Product[] getArrayCopy(Product[] set)
+    {
+        Product[] copy = new Product[set.length];
+        System.arraycopy(set,0,copy,0,set.length);
+        return copy;
+    }
+
+    public static int fillTreeLeft(Truck truck, Product[] set, int n)
+    {
+        if(set.length == 0 || !truck.canFit(set[0]))
+        {
+            return truck.getValue();
+        }
+        else
+        {
+            try {
+                truck.fill(set[0], n);
+                Product[] newSet = new Product[set.length - 1];
+                System.arraycopy(set, 1, newSet, 0, newSet.length);
+                return fillTreeLeft(truck, newSet, n+1);
+            } catch (HollowSpace.NoRoomException e) {
+                e.printStackTrace();
+            }
+        }
+        return 0;
     }
 
     public static void greedyFill(Truck truck, Product[] set)
@@ -90,6 +126,10 @@ public class Knapsack {
         long endTime = System.nanoTime();
         System.out.printf("Execution time: %.3f ms\n", ((double)endTime - beginTime) / 10e6);
         System.out.println("###############################################################");
+        System.out.println("Results: ");
+        //truck.printTruckCoronally(30);
+        truck.printTruckCoronally(165, 5);
+        System.out.println(truck);
     }
 
     public static Product[] createRandomProductArray(Product[] originals, Random rng)
