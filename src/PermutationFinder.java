@@ -9,7 +9,7 @@ public class PermutationFinder {
 
     public static void main(String[] argv)
     {
-        char[] acronym = {'a', 'b', 'c'};
+        Character[] acronym = {'a', 'b', 'c'};
         getAllPermutations(acronym, 0, 2);
     }
 
@@ -47,11 +47,10 @@ public class PermutationFinder {
         array[pos1] = temp;
     }
 
-    public Object[] next()
-    {
-        if()
-        return getNextPermutation();
-    }
+//    public Object[] next()
+//    {
+//        return getNextPermutation();
+//    }
 
     private Character[] getNextBufferedPermutation()
     {
@@ -59,24 +58,24 @@ public class PermutationFinder {
         bufferedPermutations.remove(0);
         return toReturn;
     }
-
-    private Object[] getNextPermutation(Character[] array, int beginIndex, int lastIndex)
-    {
-            if(lastIndex == beginIndex)
-            {
-                System.out.println(Arrays.toString(array));
-                bufferedPermutations.add(copyArray(array));
-            }
-            else
-            {
-                for(int i = beginIndex; i <= lastIndex; i++)
-                {
-                    swap(array, beginIndex, i);
-                    getAllPermutations(array, beginIndex + 1, lastIndex);
-                    swap(array, i, beginIndex);
-                }
-            }
-    }
+//
+//    private Object[] getNextPermutation(Character[] array, int beginIndex, int lastIndex)
+//    {
+//            if(lastIndex == beginIndex)
+//            {
+//                System.out.println(Arrays.toString(array));
+//                bufferedPermutations.add(copyArray(array));
+//            }
+//            else
+//            {
+//                for(int i = beginIndex; i <= lastIndex; i++)
+//                {
+//                    swap(array, beginIndex, i);
+//                    getAllPermutations(array, beginIndex + 1, lastIndex);
+//                    swap(array, i, beginIndex);
+//                }
+//            }
+//    }
 
     private Character[] copyArray(Character[] array)
     {
