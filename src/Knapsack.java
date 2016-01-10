@@ -61,9 +61,22 @@ public class Knapsack {
 
         //int value = backTrack(truck, getArrayCopy(set), 0);
         //System.out.println("value of truck: " + value);
-
+        int count = 0;
+        while(truck.canFit(set[count]))
+        {
+            try{
+                truck.add(set[count]);
+                count++;
+            }
+            catch(HollowSpace.NoRoomException e)
+            {
+                e.printStackTrace();
+            }
+        }
         long endTime = System.nanoTime();
-        System.out.printf("Execution time: %.3f ms\n", ((double)endTime - beginTime) / 10e6);
+        System.out.println(truck);
+        truck.printTruckCoronally(165, 5);
+        System.out.printf("Execution time: %.3f s\n", ((double)endTime - beginTime) / 10e9);
         System.out.println("##################################################################");
 
     }
