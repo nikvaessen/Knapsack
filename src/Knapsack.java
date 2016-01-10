@@ -31,26 +31,21 @@ public class Knapsack {
         //create a truck as described in the project booklet and fill it with the made set
         Truck truck = new Truck(165, 25, 40);
         //greedyFill(truck, set);
-        backTrackFill(truck, set);
+        //backTrackFill(truck, set);
+        testShit();
     }
 
     public static void testShit() throws HollowSpace.NoRoomException
     {
-        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
-        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
-        Product[] originals = {A, B, C};
-        Product[] rotA = originals[0].getRotations();
-        for(int i = 0; i < rotA.length; i++)
-        {
-            Truck truck = new Truck(165, 25, 40);
-            Product p = rotA[i];
-            System.out.printf("Placing a truck with length: %d width: %d height: %d \n",
-                    p.getLength(), p.getWidth(), p.getHeight());
-            truck.fill(p,5,0,0,0);
-            truck.printTruckCoronally(21,3);
-        }
+        Product A = new Product(1, 1, 1, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Truck truck = new Truck(165, 25, 40);
 
+        while(truck.canFit(A))
+        {
+            truck.add(A);
+        }
+        System.out.println(truck);
+        truck.printTruckCoronally();
     }
 
     public static void backTrackFill(Truck truck, Product[] set)
@@ -75,7 +70,7 @@ public class Knapsack {
         }
         long endTime = System.nanoTime();
         System.out.println(truck);
-        truck.printTruckCoronally(165, 5);
+        truck.printTruckCoronally();
         System.out.printf("Execution time: %.3f s\n", ((double)endTime - beginTime) / 10e9);
         System.out.println("##################################################################");
 
@@ -141,7 +136,7 @@ public class Knapsack {
         System.out.println("###############################################################");
         System.out.println("Results: ");
         //truck.printTruckCoronally(30);
-        truck.printTruckCoronally(165, 5);
+        truck.printTruckCoronally();
         System.out.println(truck);
     }
 

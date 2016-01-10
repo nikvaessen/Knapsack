@@ -93,47 +93,64 @@ public class Truck extends HollowSpace{
     public void printTruckCoronally(int upToLength)
     {
         if(upToLength > getLength() || upToLength < 0)
-            printTruckCoronally(getLength());
+            printTruckCoronally(0,getLength(),0);
         else
-            printTruckCoronally(upToLength);
+            printTruckCoronally(0,upToLength,0);
     }
 
     public void printTruckCoronally()
     {
-        printTruckCoronally(getLength());
+        printTruckCoronally(0,1,1);
+        for(int i = 4; i < getLength(); i+= 5)
+        {
+            printTruckCoronally(0+i,1+i,1);
+        }
     }
 
-    public void printTruckCoronally(int upToLength, int interval)
+    public void printTruckCoronally(int startingFrom, int upToLength, int interval)
     {
         if(upToLength > getLength() || upToLength < 0)
         {
-            upToLength = getLength();
+            return;
         }
-        else if(interval < 0)
+        if(interval <= 0)
         {
-            interval = 0;
+            return;
+        }
+        if(startingFrom < 0 || startingFrom > upToLength || startingFrom > getLength())
+        {
+            return;
         }
         int truckLength = super.getLength();
         int truckWidth  = super.getWidth();
         int truckHeight = super.getHeight();
-        for(int i = 0; i < truckLength && i < upToLength; i += interval)
+        int spacer = 0;
+        int size = content.size();
+        while(size > 0)
         {
-            System.out.printf("Coronal slide %d out of %d:\n", i + 1, truckLength);
+            size = size / 10;
+            spacer++;
+        }
+        System.out.printf("truck length: %d\ttruck width: %d\ttruck height: %d\tcontent: %d\tspacer: %d\n",
+                truckLength, truckWidth, truckHeight, content.size(), spacer);
+        for(int i = startingFrom; i < truckLength && i < upToLength; i += interval)
+        {
+            System.out.printf("Coronal slide %d out of %d:\n", i, truckLength - 1);
             for(int j = truckHeight - 1; j >= 0 ; j--)
             {
                 System.out.printf("%2d: ", j + 1);
                 for(int k = 0; k < truckWidth; k++)
                 {
-                    System.out.printf("%2d ",space[i][k][j]);
+                       System.out.printf("%" + spacer + "d ", space[i][k][j]);
                 }
                 System.out.println();
             }
             System.out.print("    ");
             for(int n = 1; n < getWidth() + 1; n++)
             {
-                System.out.printf("%2d ", n);
+                System.out.printf("|%-" + (spacer - 1) + "d ", n);
             }
-            System.out.println();
+            System.out.println("");
         }
 
     }

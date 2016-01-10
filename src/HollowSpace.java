@@ -71,9 +71,9 @@ public class HollowSpace extends Space {
         try
         {
             int[] coords = getViableCoordinates(object);
-            System.out.println("length of object " + object.getLength() + " width of object " +
-                    object.getWidth() + " height of object " + object.getHeight()  + " placing object at:"
-             + Arrays.toString(coords));
+//            System.out.println("length of object " + object.getLength() + " width of object " +
+//                    object.getWidth() + " height of object " + object.getHeight()  + " placing object at:"
+//             + Arrays.toString(coords));
             fill(object, value, coords[0], coords[1], coords[2]);
         }
         catch (NoRoomException e)
