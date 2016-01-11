@@ -104,7 +104,7 @@ public class Truck extends HollowSpace{
         {
             printTruckCoronally(0+i,1+i,1);
         }
-        printTruckCoronally(this.content.size(),this.content.size() + 1,1);
+        printTruckCoronally(this.getLength(),getLength() + 1,1);
     }
 
     public void printTruckCoronally(int startingFrom, int upToLength, int interval)
@@ -148,6 +148,7 @@ public class Truck extends HollowSpace{
             System.out.print("    ");
             for(int n = 1; n < getWidth() + 1; n++)
             {
+                if(spacer -1 == 2)
                 System.out.printf("|%-" + (spacer - 1) + "d ", n);
             }
             System.out.println("");

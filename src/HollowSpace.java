@@ -71,9 +71,9 @@ public class HollowSpace extends Space {
         try
         {
             int[] coords = getViableCoordinates(object);
-//            System.out.println("length of object " + object.getLength() + " width of object " +
-//                    object.getWidth() + " height of object " + object.getHeight()  + " placing object at:"
-//             + Arrays.toString(coords));
+            System.out.println("length of object " + object.getLength() + " width of object " +
+                    object.getWidth() + " height of object " + object.getHeight()  + " placing object at:"
+             + Arrays.toString(coords));
             fill(object, value, coords[0], coords[1], coords[2]);
         }
         catch (NoRoomException e)
@@ -89,10 +89,10 @@ public class HollowSpace extends Space {
             int objectLength = object.getLength();
             int objectWidth  = object.getWidth();
             int objectHeight = object.getHeight();
-            if(x + objectLength >= space.length || z + objectWidth >= space[0].length ||
-                    y + objectHeight >= space[0][0].length)
+            if(x + objectLength > space.length || z + objectWidth > space[0].length ||
+                    y + objectHeight > space[0][0].length)
             {
-                throw new NoRoomException();
+                throw new NoRoomException("Trying to place a object out of bounds of the truck");
             }
             for(int i = 0; i < objectLength; i++)
             {
@@ -117,8 +117,8 @@ public class HollowSpace extends Space {
         int objectWidth  = object.getWidth();
         int objectHeight = object.getHeight();
         //check for out of bounds
-        if(x + objectLength >= space.length || z + objectWidth >= space[0].length ||
-                y + objectHeight >= space[0][0].length)
+        if(x + objectLength > space.length || z + objectWidth > space[0].length ||
+                y + objectHeight > space[0][0].length)
         {
             return false;
         }
@@ -159,7 +159,16 @@ public class HollowSpace extends Space {
 
     public void emptySpace()
     {
-        space = new int[super.getLength()][super.getWidth()][super.getHeight()];
+        for(int x = 0; x < super.getLength(); x++)
+        {
+            for(int y = 0; y < super.getHeight(); y++)
+            {
+                for(int z = 0; z < super.getWidth(); z++)
+                {
+                    space[x][z][y] = -1;
+                }
+            }
+        }
     }
 
     /**
@@ -195,17 +204,18 @@ public class HollowSpace extends Space {
                         int value = space[x][z][y];
                         if(value == -1 && canFit(object,x,z,y))
                         {
+                            System.out.printf("returned %s as viable coordinates\n", Arrays.toString(new int[] {x,z,y}));
                             return new int[] {x,z,y};
                         }
                     }
                 }
             }
             //it was not able to find a viable spot so there is no room anymore
-            throw new NoRoomException();
+            throw new NoRoomException("Not able to find a viable coordinate in the truck");
         }
         catch(ArrayIndexOutOfBoundsException e)
         {
-            throw new NoRoomException();
+            throw new NoRoomException("Array out of bound exception trying to search for viable coordinates");
         }
     }
 }
