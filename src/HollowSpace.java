@@ -139,8 +139,7 @@ public class HollowSpace extends Space {
         }
         return true;
     }
-    
-    //// TODO: 1/6/16 finish method 
+
     public boolean canFit(Space object)
     {
         try{

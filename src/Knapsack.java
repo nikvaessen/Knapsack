@@ -40,12 +40,12 @@ public class Knapsack {
         Product A = new Product(5, 5, 5, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Truck truck = new Truck(165, 25, 40);
 
-        while(truck.canFit(A))
+        for(int i = 0; i < 40; i++)
         {
             truck.add(A);
         }
         System.out.println(truck);
-        truck.printTruckCoronally();
+        truck.printTruckCoronally(0,1,1);
     }
 
     public static void backTrackFill(Truck truck, Product[] set)
