@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,8 +9,8 @@ public class ProductSet
 
     private List set;
 
-    public ProductSet(List set)
+    public ProductSet()
     {
-        this.set = set;
+        set = new ArrayList<>();
     }
 }
