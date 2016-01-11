@@ -143,9 +143,8 @@ public class Knapsack {
     {
         Product[] initalSet = new Product[originals.length * MAXIMUM_FREQUENCY];
         int index = 0;
-        int frequency = 10;
         for (Product product : originals) {
-            frequency += 10;
+            int frequency = MINIMUM_FREQUENCY + rng.nextInt(MAXIMUM_FREQUENCY - MINIMUM_FREQUENCY);
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
             for (int i = 0; i < frequency; i++) {
                 initalSet[index] = product.clone();
@@ -155,6 +154,34 @@ public class Knapsack {
         //clean up null variables
         Product[] set = new Product[index];
         System.arraycopy(initalSet, 0, set, 0, index);
+
+        //print for debugging
+        for(int i = 0; i < set.length; i++)
+        {
+            //System.out.println(set[i]);
+        }
+
+        return set;
+    }
+
+    public static Product[] createDefaultProductArray()
+    {
+        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product[] originals = {A, B, C};
+
+        Product[] set = new Product[60];
+        int index = 0;
+        int frequency = 10;
+        for (Product product : originals) {
+            frequency += 10;
+            System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
+            for (int i = 0; i < frequency; i++) {
+                set[index] = product.clone();
+                index++;
+            }
+        }
 
         //print for debugging
         for(int i = 0; i < set.length; i++)

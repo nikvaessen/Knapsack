@@ -16,32 +16,90 @@ public class GeneticAlgorithm {
 
     public static void main(String[] argv)
     {
-        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
-        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
-        Product[] originals = {A, B, C};
-
-        Product[] baseLine = Knapsack.createRandomProductArray(originals, new Random(System.nanoTime()));
+        Product[] baseLine = Knapsack.createDefaultProductArray();
 
         //creation of set
         ArrayList<Product[]> population = new ArrayList<>();
-
-
-
-    }
-
-
-    public Object[] getShuffledArray(Object[] arrayToShuffle)
-    {
-        Object[] array = PermutationFinder.copyArray(arrayToShuffle);
-        Object[] copy  = new Objects[arrayToShuffle.length];
-        while(array.length > 0)
+        for(int i = 0; i < POPULATION_SIZE; i++)
         {
-
+            population.add(shuffleArray(baseLine));
         }
-
-        return copy;
     }
+
+    public static Product[] copyArray(Product[] array)
+    {
+        Product[] copyArray = new Product[array.length];
+        for(int i=0; i<array.length; i++)
+            copyArray[i]=array[i];
+        return copyArray;
+    }
+
+    public static Product[] remove(Product[] array, int pos)
+    {
+        Product[] copyArray= new Product[array.length-1];
+        System.arraycopy(array, 0, copyArray, 0, pos);
+        System.arraycopy(array, pos+1, copyArray, pos, array.length-pos-1);
+        return copyArray;
+    }
+
+    public static Product[] shuffleArray(Product[] arrayToShuffle)
+    {
+        Product[] shuffledArray = new Product[arrayToShuffle.length];
+        int index = 0;
+        Random rng = new Random(System.nanoTime());
+        while(arrayToShuffle.length > 0)
+        {
+            int randomNumber = rng.nextInt(arrayToShuffle.length);
+            shuffledArray[index] = arrayToShuffle[randomNumber];
+            arrayToShuffle = remove(arrayToShuffle, randomNumber);
+            index++;
+        }
+        return shuffledArray;
+    }
+
+    public static void switchElements(Product[] array ,int pos1, int pos2)
+    {
+        Product aux=array[pos2];
+        array[pos2]=array[pos1];
+        array[pos1]=aux;
+    }
+
+    public static void mutatePosition(Product[] array, int mutations)
+    {
+
+    }
+
+    public static void mutateRotation(Product[] array, int mutations)
+    {
+
+    }
+
+    public static int getFitness(Product[] array)
+    {
+        return -1;
+    }
+
+    public static void sortBasedOnFitness(ArrayList<Product[]> arrayList)
+    {
+
+    }
+
+    public static void getElitestSubPopulation()
+    {
+
+    }
+
+    public static void getCrossedOverSubPopulation()
+    {
+
+    }
+
+    public static void replaceSubPopulation(int from, int until, ArrayList<Product[]> replacement)
+    {
+
+    }
+
+
 
 
 }
