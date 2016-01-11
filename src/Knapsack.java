@@ -37,7 +37,7 @@ public class Knapsack {
 
     public static void testShit() throws HollowSpace.NoRoomException
     {
-        Product A = new Product(1, 1, 1, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product A = new Product(5, 5, 5, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Truck truck = new Truck(165, 25, 40);
 
         while(truck.canFit(A))
