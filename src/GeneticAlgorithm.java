@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
 
@@ -13,6 +14,8 @@ public class GeneticAlgorithm {
 
     public static final int POPULATION_SIZE = 100;
     public static final int PRODUCT_FREQUENCY = 20;
+
+    public static Random rng = new Random(System.currentTimeMillis());
 
     public static void main(String[] argv)
     {
@@ -66,32 +69,52 @@ public class GeneticAlgorithm {
 
     public static void mutatePosition(Product[] array, int mutations)
     {
-
+        for(int i = 0; i < mutations; i++)
+        {
+            switchElements(array, rng.nextInt(array.length), rng.nextInt(array.length));
+        }
     }
 
     public static void mutateRotation(Product[] array, int mutations)
     {
-
+        for(int i = 0; i < mutations; i++)
+        {
+            int index = rng.nextInt(array.length);
+            Product[] alleles = array[index].getRotations();
+            array[index] = alleles[rng.nextInt(alleles.length)];
+        }
     }
 
     public static int getFitness(Product[] array)
     {
-        return -1;
+        Truck truck = new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT);
+        int count = 0;
+        while(truck.canFit(array[count]))
+        {
+            try
+            {
+                truck.add(array[count]);
+            } catch (HollowSpace.NoRoomException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return truck.getValue();
     }
 
     public static void sortBasedOnFitness(ArrayList<Product[]> arrayList)
     {
-
+        //Collections.shuffle();
     }
 
-    public static void getElitestSubPopulation()
+    public static ArrayList<Product[]> getElitestSubPopulation()
     {
-
+        return null;
     }
 
-    public static void getCrossedOverSubPopulation()
+    public static ArrayList<Product[]> getCrossedOverSubPopulation()
     {
-
+        return null;
     }
 
     public static void replaceSubPopulation(int from, int until, ArrayList<Product[]> replacement)
