@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Created by baxie on 11-1-16.
  */
-public class ProductSet implements Comparable
+public class ProductSet implements Comparable, Cloneable
 {
     private List<Product> set;
     private Truck truck;
@@ -32,16 +32,11 @@ public class ProductSet implements Comparable
         shuffle();
     }
 
-    private void shuffle()
+    public void add(Product p)
     {
-        fitnessKnown = false;
-        Collections.shuffle(set);
+        set.add(p);
     }
 
-    private void switchElements(int pos1, int pos2)
-    {
-        Collections.swap(set, pos1, pos2);
-    }
 
     public void mutatePosition(int mutations)
     {
@@ -75,6 +70,17 @@ public class ProductSet implements Comparable
             calculateFitness();
             return fitness;
         }
+    }
+
+    public void shuffle()
+    {
+        fitnessKnown = false;
+        Collections.shuffle(set);
+    }
+
+    private void switchElements(int pos1, int pos2)
+    {
+        Collections.swap(set, pos1, pos2);
     }
 
     private int calculateFitness()
@@ -122,4 +128,14 @@ public class ProductSet implements Comparable
         }
     }
 
+    @Override
+    public ProductSet clone()
+    {
+        ProductSet clone = new ProductSet(truck, rng);
+        for(Product p : set)
+        {
+            clone.add(p.clone());
+        }
+        return clone;
+    }
 }
