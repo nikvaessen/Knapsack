@@ -121,7 +121,16 @@ public class GeneticAlgorithm {
 
     public static ArrayList<ProductSet> getCrossedOverSubPopulation(ArrayList<ProductSet> parents)
     {
-
+        ArrayList<ProductSet> crossedOverPopulation = new ArrayList<>(parents.size()/2);
+        int n = parents.size();
+        int cnt = 0;
+        for(int i=0; i<n; i+=2)
+        {
+            ProductSet child = ProductSet.createChild(parents.get(i), parents.get(i + 1));
+            crossedOverPopulation.add(cnt, child);
+            cnt++;
+        }
+        return crossedOverPopulation;
     }
 
     public static void replaceSubPopulation(int from, int until, ArrayList<Product[]> replacement)
