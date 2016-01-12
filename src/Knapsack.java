@@ -12,7 +12,11 @@ public class Knapsack {
     public static final int MINIMUM_PRIZE = 5;
     public static final int MINIMUM_FREQUENCY = 20;
     public static final int MAXIMUM_FREQUENCY = 40;
-    
+    public static final int TRUCK_LENGTH = 165;
+    public static final int TRUCK_WIDTH = 25;
+    public static final int TRUCK_HEIGHT = 40;
+
+
     public static void main(String[] argv) throws HollowSpace.NoRoomException{
         //create rng
         Random rng = new Random(System.currentTimeMillis());
@@ -190,6 +194,23 @@ public class Knapsack {
         }
 
         return set;
+    }
+
+    public static ProductSet getDefaultProductSet()
+    {
+        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
+                new Random(System.currentTimeMillis()));
+        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product[] originals = {A, B, C};
+
+        int frequency = 10;
+        for (Product product : originals) {
+            frequency += 10;
+            ps.addProduct(product, frequency);
+        }
+        return ps;
     }
 
 }

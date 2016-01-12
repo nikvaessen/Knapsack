@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Created by baxie on 11-1-16.
  */
-public class ProductSet
+public class ProductSet implements Comparable, Cloneable
 {
     private List<Product> set;
     private Truck truck;
@@ -32,16 +32,11 @@ public class ProductSet
         shuffle();
     }
 
-    private void shuffle()
+    public void add(Product p)
     {
-        fitnessKnown = false;
-        Collections.shuffle(set);
+        set.add(p);
     }
 
-    private void switchElements(int pos1, int pos2)
-    {
-        Collections.swap(set, pos1, pos2);
-    }
 
     public void mutatePosition(int mutations)
     {
@@ -77,6 +72,17 @@ public class ProductSet
         }
     }
 
+    public void shuffle()
+    {
+        fitnessKnown = false;
+        Collections.shuffle(set);
+    }
+
+    private void switchElements(int pos1, int pos2)
+    {
+        Collections.swap(set, pos1, pos2);
+    }
+
     private int calculateFitness()
     {
         fitnessKnown = true;
@@ -103,18 +109,23 @@ public class ProductSet
         } else if (object == this) {
             return 0;
         } else {
-            return 0;
+            if(!fitnessKnown)
+            {
+                calculateFitness();
+            }
+            int otherFitness = ((ProductSet) object).getFitness();
+            if( getFitness() > otherFitness )
+            {
+                return 1;
+            }
+            if(otherFitness == getFitness())
+            {
+                return 0;
+            }
+            else{
+                return -1;
+            }
         }
-    }
-
-    public Truck getTruck()
-    {
-        return truck;
-    }
-
-    public Random getRng()
-    {
-        return rng;
     }
 
     public List getList()
@@ -143,4 +154,15 @@ public class ProductSet
     }
 
 
+    @Override
+    public ProductSet clone()
+    {
+        ProductSet clone = new ProductSet(truck, rng);
+        for(Product p : set)
+        {
+            clone.add(p.clone());
+        }
+        return clone;
+    }
+}
     }
