@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Created by baxie on 11-1-16.
  */
-public class ProductSet implements Comparable
+public class ProductSet
 {
     private List<Product> set;
     private Truck truck;
@@ -103,23 +103,44 @@ public class ProductSet implements Comparable
         } else if (object == this) {
             return 0;
         } else {
-            if(!fitnessKnown)
-            {
-                calculateFitness();
-            }
-            int otherFitness = ((ProductSet) object).getFitness();
-            if( getFitness() > otherFitness )
-            {
-                return 1;
-            }
-            if(otherFitness == getFitness())
-            {
-                return 0;
-            }
-            else{
-                return -1;
-            }
+            return 0;
         }
     }
 
-}
+    public Truck getTruck()
+    {
+        return truck;
+    }
+
+    public Random getRng()
+    {
+        return rng;
+    }
+
+    public List getList()
+    {
+        return set;
+    }
+
+    public ProductSet createChild(ProductSet father, ProductSet mother)
+    {
+        ProductSet child = new ProductSet(father.getTruck(), father.getRng());
+        Random rng = new Random();
+        int n = father.getList().size();
+        for(int i=0; i<n; i++)
+        {
+            if(rng.nextBoolean())
+            {
+                child.getList().add(i, father.getList().get(i));
+            }
+            else
+            {
+                child.getList().add(i, mother.getList().get(i));
+            }
+        }
+
+        return child;
+    }
+
+
+    }
