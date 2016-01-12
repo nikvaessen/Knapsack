@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Random;
+
+import java.util.*;
 
 /**
  * Created by Bia on 1/11/2016.
@@ -10,6 +8,7 @@ public class GeneticAlgorithm {
 
     public static final int POPULATION_SIZE = 100;
     public static final int PRODUCT_FREQUENCY = 20;
+
 
     public static Random rng = new Random(System.currentTimeMillis());
 
@@ -25,15 +24,47 @@ public class GeneticAlgorithm {
             ps.shuffle();
             population.add(ps);
         }
+
+        evolvePopulationMatrix(100, population);
     }
 
-
-    public static void sortBasedOnFitness(ArrayList<ProductSet> arrayList)
+    public static void evolvePopulationMatrix(int generations, List<ProductSet> populationMatrix)
     {
-        //Collections.shuffle();
+        long beginTime = System.currentTimeMillis();
+        for(int i = 0; i < generations; i++)
+        {
+            long beginTimeGeneration = System.currentTimeMillis();
+            //first sort them on highest value
+            sortBasedOnFitness(populationMatrix);
+
+            //elitist selection
+            ArrayList<ProductSet> parents = getElitistSubPopulation(40, populationMatrix);
+            ArrayList<ProductSet> children = getCrossedOverSubPopulation(parents);
+            ArrayList<ProductSet> newInd = getNewIndividuals(populationMatrix.size() - parents.size() - children.size(),
+                    populationMatrix.get(0));
+
+            ArrayList<ProductSet> newGeneration = new ArrayList<>(populationMatrix.size());
+            newGeneration.addAll(parents);
+            newGeneration.addAll(children);
+            newGeneration.addAll(newInd);
+            populationMatrix = newGeneration;
+            long endTimeGeneration = System.currentTimeMillis();
+            System.out.printf("%dth generation took %d ms to compute.\n", i+1, endTimeGeneration - beginTimeGeneration);
+        }
+        long endTime   = System.currentTimeMillis();
+        System.out.printf("####################_RESULTS_####################");
+        System.out.printf("Execution time: %d ms\n", endTime - beginTime );
+        System.out.printf("Truck with highest value: %d", populationMatrix.get(0).getFitness());
+        System.out.printf("Content of truck: \n");
+        populationMatrix.get(0).getFilledTruck().printTruckCoronally();
     }
 
-    public static ArrayList<ProductSet> getElitistSubPopulation(int percent, ArrayList<ProductSet> population)
+    public static void sortBasedOnFitness(List<ProductSet> arrayList)
+    {
+        Collections.sort(arrayList, Collections.reverseOrder());
+    }
+
+    public static ArrayList<ProductSet> getElitistSubPopulation(int percent, List<ProductSet> population)
     {
         int n=percent/100*population.size();
         ArrayList<ProductSet> elitistSubPopulation = new ArrayList<>();
@@ -41,11 +72,9 @@ public class GeneticAlgorithm {
         for(int i=0; i<n; i++)
             elitistSubPopulation.add(population.get(i));
         return elitistSubPopulation;
-
-
     }
 
-    public static ArrayList<ProductSet> getCrossedOverSubPopulation(ArrayList<ProductSet> parents)
+    public static ArrayList<ProductSet> getCrossedOverSubPopulation(List<ProductSet> parents)
     {
         ArrayList<ProductSet> crossedOverPopulation = new ArrayList<>(parents.size()/2);
         int n = parents.size();
@@ -59,19 +88,32 @@ public class GeneticAlgorithm {
         return crossedOverPopulation;
     }
 
-    public static void replaceSubPopulation(int from, int until, ArrayList<ProductSet> toBeReplaced, ArrayList<ProductSet> replacements)
+    public static void replaceSubPopulation(int from, int until,
+                                            List<ProductSet> toBeReplaced, List<ProductSet> replacements)
     {
         int k=0;
-
         for(int i=from; i<until; i++)
         {
             toBeReplaced.add(i, replacements.get(k));
             k++;
         }
-
     }
 
-
-
+    public static ArrayList<ProductSet> getNewIndividuals(int amount, ProductSet baseLine)
+    {
+        ArrayList<ProductSet> set = new ArrayList<>();
+        for(int i = 0; i < amount; i++)
+        {
+            ProductSet ps = baseLine.clone();
+            ps.shuffle();
+            List psContent = ps.getList();
+            for(int j = 0; j < psContent.size(); j++)
+            {
+                ps.mutateRotation(ps.size());
+            }
+            set.add(ps);
+        }
+        return set;
+    }
 
 }

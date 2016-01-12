@@ -138,9 +138,26 @@ public class ProductSet implements Comparable, Cloneable
         return truck;
     }
 
+    public Truck getFilledTruck()
+    {
+        if(fitnessKnown)
+        {
+            return truck.clone();
+        }
+        else{
+            calculateFitness();
+            return truck.clone();
+        }
+    }
+
     public Random getRng()
     {
         return rng;
+    }
+
+    public int size()
+    {
+        return set.size();
     }
 
     public static ProductSet createChild(ProductSet father, ProductSet mother)
