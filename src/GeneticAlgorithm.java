@@ -28,22 +28,29 @@ public class GeneticAlgorithm {
     }
 
 
-    public static void sortBasedOnFitness(ArrayList<Product[]> arrayList)
+    public static void sortBasedOnFitness(ArrayList<ProductSet> arrayList)
     {
         //Collections.shuffle();
     }
 
-    public static ArrayList<ProductSet> getElitestSubPopulation()
+    public static ArrayList<ProductSet> getElitistSubPopulation(int percent, ArrayList<ProductSet> population)
     {
-        return null;
+        int n=percent/100*population.size();
+        ArrayList<ProductSet> elitistSubPopulation = new ArrayList<>();
+        sortBasedOnFitness(population);
+        for(int i=0; i<n; i++)
+            elitistSubPopulation.add(population.get(i));
+        return elitistSubPopulation;
+
+
     }
 
-    public static ArrayList<ProductSet> getCrossedOverSubPopulation()
+    public static ArrayList<ProductSet> getCrossedOverSubPopulation(ArrayList<ProductSet> parents)
     {
-        return null;
+
     }
 
-    public static void replaceSubPopulation(int from, int until, ArrayList<ProductSet> replacement)
+    public static void replaceSubPopulation(int from, int until, ArrayList<Product[]> replacement)
     {
 
     }

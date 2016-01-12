@@ -128,6 +128,32 @@ public class ProductSet implements Comparable, Cloneable
         }
     }
 
+    public List getList()
+    {
+        return set;
+    }
+
+    public ProductSet createChild(ProductSet father, ProductSet mother)
+    {
+        ProductSet child = new ProductSet(father.getTruck(), father.getRng());
+        Random rng = new Random();
+        int n = father.getList().size();
+        for(int i=0; i<n; i++)
+        {
+            if(rng.nextBoolean())
+            {
+                child.getList().add(i, father.getList().get(i));
+            }
+            else
+            {
+                child.getList().add(i, mother.getList().get(i));
+            }
+        }
+
+        return child;
+    }
+
+
     @Override
     public ProductSet clone()
     {
@@ -139,3 +165,4 @@ public class ProductSet implements Comparable, Cloneable
         return clone;
     }
 }
+    }
