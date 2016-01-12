@@ -98,7 +98,7 @@ public class PermutationFinder {
         array[pos1] = temp;
     }
 
-    private Object[] copyArray(Object[] array)
+    public static Object[] copyArray(Object[] array)
     {
         Object[] copy = new Object[array.length];
         for(int i = 0; i < array.length; i++)

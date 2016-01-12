@@ -30,9 +30,9 @@ public class Knapsack {
 
         //create a truck as described in the project booklet and fill it with the made set
         Truck truck = new Truck(165, 25, 40);
-        //greedyFill(truck, set);
+        greedyFill(truck, set);
         //backTrackFill(truck, set);
-        testShit();
+        //testShit();
     }
 
     public static void testShit() throws HollowSpace.NoRoomException
@@ -40,12 +40,12 @@ public class Knapsack {
         Product A = new Product(5, 5, 5, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Truck truck = new Truck(165, 25, 40);
 
-        while(truck.canFit(A))
+        for(int i = 0; i < 40; i++)
         {
             truck.add(A);
         }
         System.out.println(truck);
-        truck.printTruckCoronally();
+        truck.printTruckCoronally(0,1,1);
     }
 
     public static void backTrackFill(Truck truck, Product[] set)
@@ -135,7 +135,6 @@ public class Knapsack {
         System.out.printf("Execution time: %.3f ms\n", ((double)endTime - beginTime) / 10e6);
         System.out.println("###############################################################");
         System.out.println("Results: ");
-        //truck.printTruckCoronally(30);
         truck.printTruckCoronally();
         System.out.println(truck);
     }
@@ -144,9 +143,8 @@ public class Knapsack {
     {
         Product[] initalSet = new Product[originals.length * MAXIMUM_FREQUENCY];
         int index = 0;
-        int frequency = 10;
         for (Product product : originals) {
-            frequency += 10;
+            int frequency = MINIMUM_FREQUENCY + rng.nextInt(MAXIMUM_FREQUENCY - MINIMUM_FREQUENCY);
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
             for (int i = 0; i < frequency; i++) {
                 initalSet[index] = product.clone();
@@ -156,6 +154,34 @@ public class Knapsack {
         //clean up null variables
         Product[] set = new Product[index];
         System.arraycopy(initalSet, 0, set, 0, index);
+
+        //print for debugging
+        for(int i = 0; i < set.length; i++)
+        {
+            //System.out.println(set[i]);
+        }
+
+        return set;
+    }
+
+    public static Product[] createDefaultProductArray()
+    {
+        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product[] originals = {A, B, C};
+
+        Product[] set = new Product[60];
+        int index = 0;
+        int frequency = 10;
+        for (Product product : originals) {
+            frequency += 10;
+            System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
+            for (int i = 0; i < frequency; i++) {
+                set[index] = product.clone();
+                index++;
+            }
+        }
 
         //print for debugging
         for(int i = 0; i < set.length; i++)

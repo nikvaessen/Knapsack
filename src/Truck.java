@@ -104,7 +104,7 @@ public class Truck extends HollowSpace{
         {
             printTruckCoronally(0+i,1+i,1);
         }
-        printTruckCoronally(this.content.size(),this.content.size() + 1,1);
+        printTruckCoronally(this.getLength(),getLength() + 1,1);
     }
 
     public void printTruckCoronally(int startingFrom, int upToLength, int interval)
@@ -131,8 +131,8 @@ public class Truck extends HollowSpace{
             size = size / 10;
             spacer++;
         }
-//        System.out.printf("truck length: %d\ttruck width: %d\ttruck height: %d\tcontent: %d\tspacer: %d\n",
-//                truckLength, truckWidth, truckHeight, content.size(), spacer);
+        System.out.printf("truck length: %d\ttruck width: %d\ttruck height: %d\tcontent: %d\tspacer: %d\n",
+                truckLength, truckWidth, truckHeight, content.size(), spacer);
         for(int i = startingFrom; i < truckLength && i < upToLength; i += interval)
         {
             System.out.printf("Coronal slide %d out of %d:\n", i + 1, truckLength - 1);
@@ -148,10 +148,17 @@ public class Truck extends HollowSpace{
             System.out.print("    ");
             for(int n = 1; n < getWidth() + 1; n++)
             {
-                System.out.printf("|%-" + (spacer - 1) + "d ", n);
+                if(spacer -1 < 2)
+                    System.out.printf("|%d ", n);
+                else
+                    System.out.printf("|%-" + (spacer - 1) + "d ", n);
             }
             System.out.println("");
         }
     }
 
+    @Override
+    public Truck clone()  {
+        return new Truck(getLength(), getWidth(), getHeight());
+    }
 }
