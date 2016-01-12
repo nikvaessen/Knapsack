@@ -133,7 +133,7 @@ public class ProductSet implements Comparable, Cloneable
         return set;
     }
 
-    public ProductSet createChild(ProductSet father, ProductSet mother)
+    public static ProductSet createChild(ProductSet father, ProductSet mother)
     {
         ProductSet child = new ProductSet(father.getTruck(), father.getRng());
         Random rng = new Random();
