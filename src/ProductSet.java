@@ -133,6 +133,16 @@ public class ProductSet implements Comparable, Cloneable
         return set;
     }
 
+    public Truck getTruck()
+    {
+        return truck;
+    }
+
+    public Random getRng()
+    {
+        return rng;
+    }
+
     public static ProductSet createChild(ProductSet father, ProductSet mother)
     {
         ProductSet child = new ProductSet(father.getTruck(), father.getRng());
@@ -165,4 +175,4 @@ public class ProductSet implements Comparable, Cloneable
         return clone;
     }
 }
-    }
+
