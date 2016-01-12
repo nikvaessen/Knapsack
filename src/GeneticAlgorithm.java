@@ -133,8 +133,15 @@ public class GeneticAlgorithm {
         return crossedOverPopulation;
     }
 
-    public static void replaceSubPopulation(int from, int until, ArrayList<Product[]> replacement)
+    public static void replaceSubPopulation(int from, int until, ArrayList<ProductSet> toBeReplaced, ArrayList<ProductSet> replacements)
     {
+        int k=0;
+
+        for(int i=from; i<until; i++)
+        {
+            toBeReplaced.add(i, replacements.get(k));
+            k++;
+        }
 
     }
 
