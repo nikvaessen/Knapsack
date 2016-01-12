@@ -157,4 +157,8 @@ public class Truck extends HollowSpace{
         }
     }
 
+    @Override
+    public Truck clone()  {
+        return new Truck(getLength(), getWidth(), getHeight());
+    }
 }

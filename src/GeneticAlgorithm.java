@@ -107,17 +107,17 @@ public class GeneticAlgorithm {
         //Collections.shuffle();
     }
 
-    public static ArrayList<Product[]> getElitestSubPopulation()
+    public static ArrayList<ProductSet> getElitestSubPopulation()
     {
         return null;
     }
 
-    public static ArrayList<Product[]> getCrossedOverSubPopulation()
+    public static ArrayList<ProductSet> getCrossedOverSubPopulation()
     {
         return null;
     }
 
-    public static void replaceSubPopulation(int from, int until, ArrayList<Product[]> replacement)
+    public static void replaceSubPopulation(int from, int until, ArrayList<ProductSet> replacement)
     {
 
     }

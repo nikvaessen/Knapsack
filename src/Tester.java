@@ -11,7 +11,9 @@ public class Tester
     {
         ArrayList<Integer> array = new ArrayList<Integer>(Arrays.asList(new Integer[] {1,2,3,4,5}));
         System.out.println(array);
-        Collections.shuffle(array);
+        int removed = array.remove(3);
+        System.out.println(array);
+        array.add(3, removed);
         System.out.println(array);
     }
 
