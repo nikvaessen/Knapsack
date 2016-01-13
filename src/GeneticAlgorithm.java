@@ -50,6 +50,7 @@ public class GeneticAlgorithm {
             long endTimeGeneration = System.currentTimeMillis();
             System.out.printf("%dth generation took %d ms to compute.\n", i+1, endTimeGeneration - beginTimeGeneration);
         }
+        sortBasedOnFitness(populationMatrix);
         long endTime   = System.currentTimeMillis();
         System.out.printf("####################_RESULTS_####################\n");
         System.out.printf("Execution time: %d ms\n", endTime - beginTime );
