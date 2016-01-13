@@ -7,8 +7,7 @@ import java.util.*;
 public class GeneticAlgorithm {
 
     public static final int POPULATION_SIZE = 100;
-    public static final int PRODUCT_FREQUENCY = 20;
-
+    public static final int GENERATIONS = 1;
 
     public static Random rng = new Random(System.currentTimeMillis());
 
@@ -25,7 +24,7 @@ public class GeneticAlgorithm {
             population.add(ps);
         }
 
-        evolvePopulationMatrix(100, population);
+        evolvePopulationMatrix(GENERATIONS, population);
     }
 
     public static void evolvePopulationMatrix(int generations, List<ProductSet> populationMatrix)
@@ -52,9 +51,9 @@ public class GeneticAlgorithm {
             System.out.printf("%dth generation took %d ms to compute.\n", i+1, endTimeGeneration - beginTimeGeneration);
         }
         long endTime   = System.currentTimeMillis();
-        System.out.printf("####################_RESULTS_####################");
+        System.out.printf("####################_RESULTS_####################\n");
         System.out.printf("Execution time: %d ms\n", endTime - beginTime );
-        System.out.printf("Truck with highest value: %d", populationMatrix.get(0).getFitness());
+        System.out.printf("Truck with highest value: %d\n", populationMatrix.get(0).getFitness());
         System.out.printf("Content of truck: \n");
         populationMatrix.get(0).getFilledTruck().printTruckCoronally();
     }
