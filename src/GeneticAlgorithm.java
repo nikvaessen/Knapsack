@@ -7,7 +7,8 @@ import java.util.*;
 public class GeneticAlgorithm {
 
     public static final int POPULATION_SIZE = 100;
-    public static final int GENERATIONS = 200;
+    public static final int GENERATIONS = 1000;
+    public static final int MUTATION_CHANCE = 15;
 
     public static Random rng = new Random(System.currentTimeMillis());
 
@@ -42,6 +43,14 @@ public class GeneticAlgorithm {
             ArrayList<ProductSet> newInd = getNewIndividuals(populationMatrix.size() - parents.size() - children.size(),
                     populationMatrix.get(0));
 
+            for(int j=0; j<children.size(); j++)
+            {
+                if(rng.nextInt(100)<MUTATION_CHANCE)
+                {
+                    children.get(j).mutatePosition(10);
+                    children.get(j).mutateRotation(10);
+                }
+            }
             ArrayList<ProductSet> newGeneration = new ArrayList<>(populationMatrix.size());
             newGeneration.addAll(parents);
             newGeneration.addAll(children);
