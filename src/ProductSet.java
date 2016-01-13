@@ -83,21 +83,21 @@ public class ProductSet implements Comparable, Cloneable
         Collections.swap(set, pos1, pos2);
     }
 
-    private int calculateFitness()
+    private void calculateFitness()
     {
         fitnessKnown = true;
-        int count = 0;
-        while(truck.canFit(set.get(count)))
+       for(Product p :set)
         {
             try
             {
-                truck.add(set.get(count));
+                if(truck.canFit(p)) truck.add(p);
+                else break;
             } catch (HollowSpace.NoRoomException e)
             {
                 e.printStackTrace();
             }
         }
-        return truck.getValue();
+        fitness = truck.getValue();
     }
 
     @Override
@@ -142,11 +142,11 @@ public class ProductSet implements Comparable, Cloneable
     {
         if(fitnessKnown)
         {
-            return truck.clone();
+            return truck;
         }
         else{
             calculateFitness();
-            return truck.clone();
+            return truck;
         }
     }
 
