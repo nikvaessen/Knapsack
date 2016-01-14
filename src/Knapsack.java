@@ -12,16 +12,20 @@ public class Knapsack {
     public static final int MINIMUM_PRIZE = 5;
     public static final int MINIMUM_FREQUENCY = 20;
     public static final int MAXIMUM_FREQUENCY = 40;
-    
+    public static final int TRUCK_LENGTH = 165;
+    public static final int TRUCK_WIDTH = 25;
+    public static final int TRUCK_HEIGHT = 40;
+
+
     public static void main(String[] argv) throws HollowSpace.NoRoomException{
         //create rng
         Random rng = new Random(System.currentTimeMillis());
 
         //create a set of products
         //product A, B and C as described in the project booklet
-        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
-        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
         //creation of set
@@ -71,7 +75,7 @@ public class Knapsack {
         long endTime = System.nanoTime();
         System.out.println(truck);
         truck.printTruckCoronally();
-        System.out.printf("Execution time: %.3f s\n", ((double)endTime - beginTime) / 10e9);
+        System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
         System.out.println("##################################################################");
 
     }
@@ -106,9 +110,9 @@ public class Knapsack {
     public static void greedyFill(Truck truck, Product[] set)
     {
         System.out.println("####################GREEDY_FILL################################");
-        long beginTime = System.nanoTime();
+        long beginTime = System.currentTimeMillis();
         //sort the set from lowest to highest value/volume rating(value density)
-        Arrays.sort(set);
+        //Arrays.sort(set);
 
         //begin filling the truck with the highest value density until the truck is full or there are no more products
         int index = set.length - 1;
@@ -131,8 +135,8 @@ public class Knapsack {
                 break;
             }
         }
-        long endTime = System.nanoTime();
-        System.out.printf("Execution time: %.3f ms\n", ((double)endTime - beginTime) / 10e6);
+        long endTime = System.currentTimeMillis();
+        System.out.printf("Execution time: %d ms\n", endTime - beginTime);
         System.out.println("###############################################################");
         System.out.println("Results: ");
         truck.printTruckCoronally();
@@ -190,6 +194,23 @@ public class Knapsack {
         }
 
         return set;
+    }
+
+    public static ProductSet getDefaultProductSet()
+    {
+        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
+                new Random(System.currentTimeMillis()));
+        Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product[] originals = {A, B, C};
+
+        int frequency = 10;
+        for (Product product : originals) {
+            frequency += 10;
+            ps.addProduct(product, frequency);
+        }
+        return ps;
     }
 
 }

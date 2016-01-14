@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * Created by baxie on 11-1-16.
  */
-public class ProductSet
+public class ProductSet implements Comparable, Cloneable
 {
     private List<Product> set;
     private Truck truck;
@@ -32,16 +32,11 @@ public class ProductSet
         shuffle();
     }
 
-    private void shuffle()
+    public void add(Product p)
     {
-        fitnessKnown = false;
-        Collections.shuffle(set);
+        set.add(p);
     }
 
-    private void switchElements(int pos1, int pos2)
-    {
-        Collections.swap(set, pos1, pos2);
-    }
 
     public void mutatePosition(int mutations)
     {
@@ -77,21 +72,32 @@ public class ProductSet
         }
     }
 
-    private int calculateFitness()
+    public void shuffle()
+    {
+        fitnessKnown = false;
+        Collections.shuffle(set);
+    }
+
+    private void switchElements(int pos1, int pos2)
+    {
+        Collections.swap(set, pos1, pos2);
+    }
+
+    private void calculateFitness()
     {
         fitnessKnown = true;
-        int count = 0;
-        while(truck.canFit(set.get(count)))
+       for(Product p :set)
         {
             try
             {
-                truck.add(set.get(count));
+                if(truck.canFit(p)) truck.add(p);
+                else break;
             } catch (HollowSpace.NoRoomException e)
             {
                 e.printStackTrace();
             }
         }
-        return truck.getValue();
+        fitness = truck.getValue();
     }
 
     @Override
@@ -103,10 +109,87 @@ public class ProductSet
         } else if (object == this) {
             return 0;
         } else {
-            return 0;
+            if(!fitnessKnown)
+            {
+                calculateFitness();
+            }
+            int otherFitness = ((ProductSet) object).getFitness();
+            if( getFitness() > otherFitness )
+            {
+                return 1;
+            }
+            if(otherFitness == getFitness())
+            {
+                return 0;
+            }
+            else{
+                return -1;
+            }
         }
     }
 
-
-
+    public List getList()
+    {
+        return set;
     }
+
+    public Truck getTruck()
+    {
+        return truck;
+    }
+
+    public Truck getFilledTruck()
+    {
+        if(fitnessKnown)
+        {
+            return truck;
+        }
+        else{
+            calculateFitness();
+            return truck;
+        }
+    }
+
+    public Random getRng()
+    {
+        return rng;
+    }
+
+    public int size()
+    {
+        return set.size();
+    }
+
+    public static ProductSet createChild(ProductSet father, ProductSet mother)
+    {
+        ProductSet child = new ProductSet(father.getTruck(), father.getRng());
+        Random rng = new Random();
+        int n = father.getList().size();
+        for(int i=0; i<n; i++)
+        {
+            if(rng.nextBoolean())
+            {
+                child.getList().add(i, father.getList().get(i));
+            }
+            else
+            {
+                child.getList().add(i, mother.getList().get(i));
+            }
+        }
+
+        return child;
+    }
+
+
+    @Override
+    public ProductSet clone()
+    {
+        ProductSet clone = new ProductSet(truck, rng);
+        for(Product p : set)
+        {
+            clone.add(p.clone());
+        }
+        return clone;
+    }
+}
+
