@@ -75,7 +75,7 @@ public class Knapsack {
         long endTime = System.nanoTime();
         System.out.println(truck);
         truck.printTruckCoronally();
-        System.out.printf("Execution time: %.3f s\n", ((double)endTime - beginTime) / 10e9);
+        System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
         System.out.println("##################################################################");
 
     }
@@ -110,9 +110,9 @@ public class Knapsack {
     public static void greedyFill(Truck truck, Product[] set)
     {
         System.out.println("####################GREEDY_FILL################################");
-        long beginTime = System.nanoTime();
+        long beginTime = System.currentTimeMillis();
         //sort the set from lowest to highest value/volume rating(value density)
-        Arrays.sort(set);
+        //Arrays.sort(set);
 
         //begin filling the truck with the highest value density until the truck is full or there are no more products
         int index = set.length - 1;
@@ -135,8 +135,8 @@ public class Knapsack {
                 break;
             }
         }
-        long endTime = System.nanoTime();
-        System.out.printf("Execution time: %.3f ms\n", ((double)endTime - beginTime) / 10e6);
+        long endTime = System.currentTimeMillis();
+        System.out.printf("Execution time: %d ms\n", endTime - beginTime);
         System.out.println("###############################################################");
         System.out.println("Results: ");
         truck.printTruckCoronally();
