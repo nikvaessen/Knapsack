@@ -125,11 +125,11 @@ public class HollowSpace extends Space {
         //check for products already in place
         for(int i = 0 ; i < objectLength; i++)
         {
-            for(int j = 0; z < objectWidth; z++)
+            for(int j = 0; j < objectWidth; j++)
             {
-                for(int k = 0; y < objectHeight; y++)
+                for(int k = 0; k < objectHeight; k++)
                 {
-                    int value = space[x][z][y];
+                    int value = space[i+x][j+z][k+y];
                     if(value != -1 )
                     {
                         return false;

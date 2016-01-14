@@ -39,7 +39,10 @@ public class GeneticAlgorithm {
 
             //elitist selection
             ArrayList<ProductSet> parents = getElitistSubPopulation(40, populationMatrix);
+            //roulette wheel selection
+            //ArrayList<ProductSet> parents = rouletteWheelSelection(40, populationMatrix);
             ArrayList<ProductSet> children = getCrossedOverSubPopulation(parents);
+            children.addAll(getCrossedOverSubPopulation(parents));
             ArrayList<ProductSet> newInd = getNewIndividuals(populationMatrix.size() - parents.size() - children.size(),
                     populationMatrix.get(0));
 
@@ -81,6 +84,36 @@ public class GeneticAlgorithm {
         for(int i=0; i<n; i++)
             elitistSubPopulation.add(population.get(i));
         return elitistSubPopulation;
+    }
+
+
+    public static ArrayList<ProductSet> rouletteWheelSelection(int percent, List<ProductSet> population)
+    {
+        ArrayList<ProductSet> selectedPopulation = new ArrayList<>();
+        int sumOfFitnesses = 0, m, k=0, fitness = 0;
+        int n=percent/100*population.size();
+        Random rng = new Random();
+
+        for(int i=0; i<population.size(); i++)
+            sumOfFitnesses += population.get(i).getFitness();
+
+        while(k<n)
+        {
+            m = rng.nextInt(sumOfFitnesses);
+            for(int i=0; i<population.size(); i++)
+            {
+                fitness += population.get(i).getFitness();
+                if(fitness >= m)
+                {
+                    selectedPopulation.add(k, population.get(i));
+                    break;
+                }
+            }
+            fitness = 0;
+            k++;
+        }
+
+        return selectedPopulation;
     }
 
     public static ArrayList<ProductSet> getCrossedOverSubPopulation(List<ProductSet> parents)
