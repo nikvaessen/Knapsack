@@ -34,9 +34,9 @@ public class Knapsack {
 
         //create a truck as described in the project booklet and fill it with the made set
         Truck truck = new Truck(165, 25, 40);
-        greedyFill(truck, set);
+        //greedyFill(truck, set);
         //backTrackFill(truck, set);
-        //testShit();
+        testShit();
     }
 
     public static void testShit() throws HollowSpace.NoRoomException
