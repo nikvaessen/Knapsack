@@ -77,4 +77,32 @@ public class removedCode {
 //        return truck.getValue();
 //    }
 
+//    public static void backTrackFill(Truck truck, Product[] set)
+//    {
+//
+//        System.out.println("####################BACKTRACK_FILL################################");
+//        long beginTime = System.nanoTime();
+//
+//        //int value = backTrack(truck, getArrayCopy(set), 0);
+//        //System.out.println("value of truck: " + value);
+//        int count = 0;
+//        while(truck.canFit(set[count]))
+//        {
+//            try{
+//                truck.add(set[count]);
+//                count++;
+//            }
+//            catch(HollowSpace.NoRoomException e)
+//            {
+//                e.printStackTrace();
+//            }
+//        }
+//        long endTime = System.nanoTime();
+//        System.out.println(truck);
+//        truck.printTruckCoronally();
+//        System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
+//        System.out.println("##################################################################");
+//
+//    }
+
 }

@@ -34,12 +34,12 @@ public class Knapsack {
 
         //create a truck as described in the project booklet and fill it with the made set
         Truck truck = new Truck(165, 25, 40);
-        greedyFill(truck, set);
+        //greedyFill(truck, set);
         //backTrackFill(truck, set);
-        //testShit();
+        testStuff();
     }
 
-    public static void testShit() throws HollowSpace.NoRoomException
+    public static void testStuff() throws HollowSpace.NoRoomException
     {
         Product A = new Product(5, 5, 5, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Truck truck = new Truck(165, 25, 40);
@@ -50,34 +50,6 @@ public class Knapsack {
         }
         System.out.println(truck);
         truck.printTruckCoronally(0,1,1);
-    }
-
-    public static void backTrackFill(Truck truck, Product[] set)
-    {
-
-        System.out.println("####################BACKTRACK_FILL################################");
-        long beginTime = System.nanoTime();
-
-        //int value = backTrack(truck, getArrayCopy(set), 0);
-        //System.out.println("value of truck: " + value);
-        int count = 0;
-        while(truck.canFit(set[count]))
-        {
-            try{
-                truck.add(set[count]);
-                count++;
-            }
-            catch(HollowSpace.NoRoomException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        long endTime = System.nanoTime();
-        System.out.println(truck);
-        truck.printTruckCoronally();
-        System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
-        System.out.println("##################################################################");
-
     }
 
     public Product[] getArrayCopy(Product[] set)
