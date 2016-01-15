@@ -29,7 +29,7 @@ public class Knapsack {
         Product[] originals = {A, B, C};
 
         //creation of set
-        Product[] set = createRandomProductArray(originals, rng);
+        Product[] set = createDefaultProductArray();
         System.out.println("Sorting finished");
 
         //create a truck as described in the project booklet and fill it with the made set
@@ -112,7 +112,7 @@ public class Knapsack {
         System.out.println("####################GREEDY_FILL################################");
         long beginTime = System.currentTimeMillis();
         //sort the set from lowest to highest value/volume rating(value density)
-        //Arrays.sort(set);
+        Arrays.sort(set);
 
         //begin filling the truck with the highest value density until the truck is full or there are no more products
         int index = set.length - 1;
@@ -175,9 +175,9 @@ public class Knapsack {
         Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        Product[] set = new Product[60];
+        Product[] set = new Product[225];
         int index = 0;
-        int frequency = 10;
+        int frequency = 55;
         for (Product product : originals) {
             frequency += 10;
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());

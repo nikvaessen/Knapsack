@@ -61,8 +61,6 @@ public class Truck extends HollowSpace{
      */
     public int getValue()
     {
-
-
         /*for(Product product : content)
         {
             value += product.getValue();
