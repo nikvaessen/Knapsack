@@ -6,6 +6,11 @@ import java.util.Scanner;
  * Created by baxie on 16-12-15.
  */
 public class Truck extends HollowSpace{
+
+    int aCount ;
+    int bCount ;
+    int cCount ;
+    int value = 0;
     //content of the truck
     private ArrayList<Product> content;
 
@@ -44,12 +49,33 @@ public class Truck extends HollowSpace{
      */
     public int getValue()
     {
-        int value = 0;
-        for(Product product : content)
+
+
+        /*for(Product product : content)
         {
             value += product.getValue();
         }
-        return value;
+        return value;*/
+
+        for(Product product : content)
+        {
+           if(product.getName() == "A")
+           {
+               aCount++ ;
+           }
+
+           else if(product.getName() == "B")
+           {
+               bCount++ ;
+           }
+
+           else if(product.getName() == "C")
+           {
+               cCount++ ;
+           }
+        }
+        value = (aCount * 3) + (bCount * 4) + (cCount * 5) ;
+        return value ;
     }
 
     /**
