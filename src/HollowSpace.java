@@ -218,4 +218,59 @@ public class HollowSpace extends Space {
             throw new NoRoomException("Array out of bound exception trying to search for viable coordinates");
         }
     }
+
+    public void fill2DArray(PentominoeProduct product, int xBegin, int zBegin, int yBegin, int value) throws NoRoomException
+    {
+        int[][] toFill = product.getArray();
+        int length = 5*toFill.length;
+        int width = 5*toFill[0].length;
+        // get viable coordinates
+        if(!product.isX() && product.isY() && product.isZ())
+        {
+            System.out.println("width=" + width + " length=" + length);
+            for(int i = 0; i < 4; i++)
+            {
+                for(int j = 0; j < length; j++)
+                {
+                    for(int k = 0; k < width; k++)
+                    {
+                        System.out.println("j=" + j + " k=" + k + " j/5=" + j/5 + " k/5=" + k/5);
+                        if(toFill[j/5][k/5] == 1)
+                        space[i+xBegin][j+zBegin][k+yBegin] = value;
+                    }
+                }
+            }
+        }
+
+        else if(product.isX() && !product.isY() && product.isZ())
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                for(int j = 0; j < length; j++)
+                {
+                    for(int k = 0; k < width; k++)
+                    {
+                        if(toFill[j/5][k/5] == 1)
+                        space[j+xBegin][k+zBegin][i+yBegin] = value;
+                    }
+                }
+            }
+        }
+
+       else if(product.isX() && product.isY() && !product.isZ())
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                for(int j = 0; j < length; j++)
+                {
+                    for(int k = 0; k < width; k++)
+                    {
+                        if(toFill[j/5][k/5] == 1)
+                        space[j+xBegin][i+zBegin][k+yBegin] = value;
+                    }
+                }
+            }
+        }
+
+    }
 }

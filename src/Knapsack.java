@@ -29,17 +29,17 @@ public class Knapsack {
         Product[] originals = {A, B, C};
 
         //creation of set
-        Product[] set = createDefaultProductArray();
+        Product[] set = createRandomProductArray(originals, rng);
         System.out.println("Sorting finished");
 
         //create a truck as described in the project booklet and fill it with the made set
         Truck truck = new Truck(165, 25, 40);
         greedyFill(truck, set);
         //backTrackFill(truck, set);
-        //testStuff();
+        //testShit();
     }
 
-    public static void testStuff() throws HollowSpace.NoRoomException
+    public static void testShit() throws HollowSpace.NoRoomException
     {
         Product A = new Product(5, 5, 5, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Truck truck = new Truck(165, 25, 40);
@@ -50,6 +50,34 @@ public class Knapsack {
         }
         System.out.println(truck);
         truck.printTruckCoronally(0,1,1);
+    }
+
+    public static void backTrackFill(Truck truck, Product[] set)
+    {
+
+        System.out.println("####################BACKTRACK_FILL################################");
+        long beginTime = System.nanoTime();
+
+        //int value = backTrack(truck, getArrayCopy(set), 0);
+        //System.out.println("value of truck: " + value);
+        int count = 0;
+        while(truck.canFit(set[count]))
+        {
+            try{
+                truck.add(set[count]);
+                count++;
+            }
+            catch(HollowSpace.NoRoomException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        long endTime = System.nanoTime();
+        System.out.println(truck);
+        truck.printTruckCoronally();
+        System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
+        System.out.println("##################################################################");
+
     }
 
     public Product[] getArrayCopy(Product[] set)
@@ -84,7 +112,7 @@ public class Knapsack {
         System.out.println("####################GREEDY_FILL################################");
         long beginTime = System.currentTimeMillis();
         //sort the set from lowest to highest value/volume rating(value density)
-        Arrays.sort(set);
+        //Arrays.sort(set);
 
         //begin filling the truck with the highest value density until the truck is full or there are no more products
         int index = set.length - 1;
@@ -147,9 +175,9 @@ public class Knapsack {
         Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        Product[] set = new Product[225];
+        Product[] set = new Product[60];
         int index = 0;
-        int frequency = 55;
+        int frequency = 10;
         for (Product product : originals) {
             frequency += 10;
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
@@ -180,6 +208,23 @@ public class Knapsack {
         int frequency = 10;
         for (Product product : originals) {
             frequency += 10;
+            ps.addProduct(product, frequency);
+        }
+        return ps;
+    }
+
+    public static ProductSet getDefaultUnboundedProductSet()
+    {
+        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
+                new Random(System.currentTimeMillis()));
+        Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product[] originals = {A, B, C};
+
+        int frequency = 50;
+        for (Product product : originals) {
+            //frequency += 10;
             ps.addProduct(product, frequency);
         }
         return ps;
