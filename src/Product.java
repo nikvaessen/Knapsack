@@ -3,7 +3,6 @@
  */
 public class Product extends Space implements Comparable{
 
-
     //value of product
     private int value;
     private String name;
