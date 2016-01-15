@@ -14,7 +14,8 @@ public class GeneticAlgorithm {
 
     public static void main(String[] argv)
     {
-        ProductSet baseLine = Knapsack.getDefaultProductSet();
+        ProductSet baseLine = Knapsack.getDefaultUnboundedProductSet();
+        //ProductSet baseLine = Knapsack.getDefaultProductSet();
 
         //creation of set
         ArrayList<ProductSet> population = new ArrayList<>();
@@ -38,9 +39,9 @@ public class GeneticAlgorithm {
             sortBasedOnFitness(populationMatrix);
 
             //elitist selection
-            ArrayList<ProductSet> parents = getElitistSubPopulation(40, populationMatrix);
+            //ArrayList<ProductSet> parents = getElitistSubPopulation(40, populationMatrix);
             //roulette wheel selection
-            //ArrayList<ProductSet> parents = rouletteWheelSelection(40, populationMatrix);
+            ArrayList<ProductSet> parents = rouletteWheelSelection(40, populationMatrix);
             ArrayList<ProductSet> children = getCrossedOverSubPopulation(parents);
             children.addAll(getCrossedOverSubPopulation(parents));
             ArrayList<ProductSet> newInd = getNewIndividuals(populationMatrix.size() - parents.size() - children.size(),

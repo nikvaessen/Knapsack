@@ -38,6 +38,18 @@ public class Truck extends HollowSpace{
         }
     }
 
+    public void addPentominoe(PentominoeProduct product) throws NoRoomException
+    {
+        try{
+            super.fill2DArray(product,0,0,0,content.size());
+            content.add(product);
+        }
+        catch (NoRoomException e)
+        {
+            throw e;
+        }
+    }
+
     /**
      * returns the sum of all the products currently in the truck
      * @return the sum of the values of all products in the truck

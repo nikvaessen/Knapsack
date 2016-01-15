@@ -34,9 +34,9 @@ public class Knapsack {
 
         //create a truck as described in the project booklet and fill it with the made set
         Truck truck = new Truck(165, 25, 40);
-        //greedyFill(truck, set);
+        greedyFill(truck, set);
         //backTrackFill(truck, set);
-        testShit();
+        //testShit();
     }
 
     public static void testShit() throws HollowSpace.NoRoomException
@@ -208,6 +208,23 @@ public class Knapsack {
         int frequency = 10;
         for (Product product : originals) {
             frequency += 10;
+            ps.addProduct(product, frequency);
+        }
+        return ps;
+    }
+
+    public static ProductSet getDefaultUnboundedProductSet()
+    {
+        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
+                new Random(System.currentTimeMillis()));
+        Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product[] originals = {A, B, C};
+
+        int frequency = 50;
+        for (Product product : originals) {
+            //frequency += 10;
             ps.addProduct(product, frequency);
         }
         return ps;

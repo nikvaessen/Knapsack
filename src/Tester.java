@@ -17,18 +17,26 @@ public class Tester
 //        array.add(3, removed);
 //        System.out.println(array);
 
-        Truck truck = new Truck(165, 25, 40);
-        Random rng = new Random();
-        ProductSet test = new ProductSet(truck, rng );
-        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
-        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
-        test.add(A);
-        test.add(B);
-        test.add(C);
-        System.out.println("The fitness of the truck:" + test.getFitness());
-        System.out.println("The list:" + test.getList().size());
-        test.getTruck().printTruckCoronally();
+          Truck truck = new Truck(165, 25, 40);
+//        Random rng = new Random();
+//        ProductSet test = new ProductSet(truck, rng );
+//        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+//        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+//        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+//        test.add(A);
+//        test.add(B);
+//        test.add(C);
+//        System.out.println("The fitness of the truck:" + test.getFitness());
+//        System.out.println("The list:" + test.getList().size());
+//        test.getTruck().printTruckCoronally();
+        PentominoeProduct p = new PentominoeProduct("p",3);
+        try {
+            truck.addPentominoe(p);
+        } catch (HollowSpace.NoRoomException e) {
+            e.printStackTrace();
+        }
+        truck.printTruckCoronally();
+
 
     }
 
