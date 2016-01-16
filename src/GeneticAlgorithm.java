@@ -7,7 +7,7 @@ import java.util.*;
 public class GeneticAlgorithm {
 
     public static final int POPULATION_SIZE = 100;
-    public static final int GENERATIONS = 100;
+    public static final int GENERATIONS = 200;
     public static final int MUTATION_CHANCE = 15;
 
     public static Random rng = new Random(System.currentTimeMillis());
@@ -158,5 +158,4 @@ public class GeneticAlgorithm {
         }
         return set;
     }
-
 }
