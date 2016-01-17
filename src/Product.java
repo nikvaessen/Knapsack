@@ -1,7 +1,7 @@
 /**
  * Created by baxie on 16-12-15.
  */
-public class Product extends Space implements Comparable{
+public class Product extends Space implements Comparable, Cloneable{
 
     //value of product
     private int value;
