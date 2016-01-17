@@ -33,8 +33,22 @@ public class Knapsack {
         System.out.println("Sorting finished");
 
         //create a truck as described in the project booklet and fill it with the made set
-        Truck truck = new Truck(165, 25, 40);
-        greedyFill(truck, set);
+
+  //      Truck truck = new Truck(165, 25, 40);
+//        greedyFill(truck, set);
+
+        Truck truck1 = new Truck(10, 25, 20);
+        backTrackFill(truck1, set);
+/*
+        Truck truck2 = new Truck(80, 25, 20);
+        greedyFill(truck2, set);
+
+        Truck truck3 = new Truck(55, 25, 40);
+        greedyFill(truck3, set);
+
+        Truck truck4 = new Truck(165, 25, 20);
+        greedyFill(truck4, set);
+*/
         //backTrackFill(truck, set);
         //testShit();
     }
@@ -61,6 +75,9 @@ public class Knapsack {
         //int value = backTrack(truck, getArrayCopy(set), 0);
         //System.out.println("value of truck: " + value);
         int count = 0;
+        int score;
+        int max=0;
+
         while(truck.canFit(set[count]))
         {
             try{
@@ -69,13 +86,25 @@ public class Knapsack {
             }
             catch(HollowSpace.NoRoomException e)
             {
+                score = truck.getValue();
+                if(score > max) {
+                    max = score;
+
+                    e.printStackTrace();
+
+                    //int[][]
+                }
+                //truck.remove(set[count])
+                count++;
+
+
                 e.printStackTrace();
             }
         }
         long endTime = System.nanoTime();
         System.out.println(truck);
         truck.printTruckCoronally();
-        System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
+        System.out.printf("Execution time: %d ms\n", (endTime - beginTime) );
         System.out.println("##################################################################");
 
     }
