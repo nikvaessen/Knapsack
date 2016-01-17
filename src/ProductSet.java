@@ -189,11 +189,13 @@ public class ProductSet implements Comparable, Cloneable
         {
             if(rng.nextBoolean())
             {
-                child.getList().add(i, father.getList().get(i));
+                //child.getList().add(i, father.getList().get(i));
+                child.add((Product)father.getList().get(i));
             }
             else
             {
-                child.getList().add(i, mother.getList().get(i));
+                //child.getList().add(i, mother.getList().get(i));
+                child.add((Product)mother.getList().get(i));
             }
         }
 

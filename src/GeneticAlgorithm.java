@@ -23,12 +23,16 @@ public class GeneticAlgorithm {
     public static final boolean PRINT_IN_GENERATION = true;
     public static final boolean PRINT_SUBPOPULATIONS = false;
     public static final boolean PRINT_CONTENT = false;
+    public static final boolean PRINT_START_OF_METHOD = false;
 
     public static Random rng = new Random(System.currentTimeMillis());
 
     public static void main(String[] argv)
     {
-        System.out.println("Beginning of Genetic Algorithm execution!");
+        if(PRINT_START_OF_METHOD){
+            System.out.println("Beginning of Genetic Algorithm execution!");
+        }
+
         ProductSet baseLine;
         if(UNBOUNDED){
             baseLine = Knapsack.getDefaultUnboundedProductSet();
@@ -52,6 +56,9 @@ public class GeneticAlgorithm {
 
     public static void evolvePopulationMatrix(int generations, ArrayList<ProductSet> populationMatrix)
     {
+        if(PRINT_START_OF_METHOD){
+            System.out.printf("Starting a Genetic Algorithm with %d generations\n", generations);
+        }
         long beginTime = System.currentTimeMillis();
         int previousFitness = getTotalFitness(getElitistSubPopulation(40, populationMatrix));
         long endTimeGeneration, beginTimeGeneration;
@@ -62,6 +69,10 @@ public class GeneticAlgorithm {
                 beginTimeGeneration = System.currentTimeMillis();
                 if(PRINT_CONTENT){
                     System.out.printf("Generation %2d\tstate of population:\n", i + 1);
+                }
+                else if(PRINT_START_OF_METHOD)
+                {
+                    System.out.println("Generation " + (i + 1));
                 }
                 else{
                     System.out.printf("Generation %2d", i + 1);
@@ -152,11 +163,18 @@ public class GeneticAlgorithm {
 
     public static void sortBasedOnFitness(List<ProductSet> arrayList)
     {
+        if(PRINT_START_OF_METHOD)
+        {
+            System.out.println("Started sorting");
+        }
         Collections.sort(arrayList, Collections.reverseOrder());
     }
 
     public static int getTotalFitness(List<ProductSet> population)
     {
+        if(PRINT_START_OF_METHOD){
+            System.out.println("summing total fitness");
+        }
         int fitnessSum = 0;
         for(ProductSet ps : population)
         {
@@ -167,6 +185,9 @@ public class GeneticAlgorithm {
 
     public static ArrayList<ProductSet> getElitistSubPopulation(int percent, List<ProductSet> population)
     {
+        if(PRINT_START_OF_METHOD){
+            System.out.println("Getting elitist population");
+        }
         double n = population.size() * (double) percent / 100;
         ArrayList<ProductSet> elitistSubPopulation = new ArrayList<>();
         //sortBasedOnFitness(population);
@@ -178,6 +199,9 @@ public class GeneticAlgorithm {
 
     public static ArrayList<ProductSet> rouletteWheelSelection(int percent, List<ProductSet> population)
     {
+        if(PRINT_START_OF_METHOD){
+            System.out.println("starting selection with roulette wheel");
+        }
         ArrayList<ProductSet> selectedPopulation = new ArrayList<>();
         int sumOfFitnesses = 0, m, k=0, fitness = 0;
         double n = population.size() * (double) percent / 100;
@@ -207,6 +231,9 @@ public class GeneticAlgorithm {
 
     public static ArrayList<ProductSet> getCrossedOverSubPopulation(List<ProductSet> parents)
     {
+        if(PRINT_START_OF_METHOD){
+            System.out.println("starting crossover");
+        }
         ArrayList<ProductSet> crossedOverPopulation = new ArrayList<>(parents.size()/2);
         int n = parents.size();
         int cnt = 0;
@@ -232,7 +259,10 @@ public class GeneticAlgorithm {
 
     public static ArrayList<ProductSet> getNewIndividuals(int amount, ProductSet baseLine)
     {
-        ArrayList<ProductSet> set = new ArrayList<>();
+        if(PRINT_START_OF_METHOD){
+            System.out.println("getting new individuals");
+        }
+        ArrayList<ProductSet> arrayList = new ArrayList<>();
         for(int i = 0; i < amount; i++)
         {
             ProductSet ps = baseLine.clone();
@@ -241,10 +271,15 @@ public class GeneticAlgorithm {
             for(int j = 0; j < psContent.size(); j++)
             {
                 ps.mutateRotation(ps.size());
+                if(UNBOUNDED)
+                {
+                    ps.mutateProducts(ps.size());
+                }
             }
-            set.add(ps);
+            arrayList.add(ps);
         }
-        return set;
+        System.out.println("Done with getting new individuals");
+        return arrayList;
     }
 
     public static void printFitness(ArrayList<ProductSet> population)
