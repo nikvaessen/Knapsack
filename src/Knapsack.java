@@ -34,11 +34,11 @@ public class Knapsack {
 
         //create a truck as described in the project booklet and fill it with the made set
 
-  //      Truck truck = new Truck(165, 25, 40);
-//        greedyFill(truck, set);
+        Truck truck = new Truck(165, 25, 40);
+      greedyFill(truck, set);
 
-        Truck truck1 = new Truck(10, 25, 20);
-        backTrackFill(truck1, set);
+//        Truck truck1 = new Truck(10, 25, 20);
+  //      backTrackFill(truck1, set);
 /*
         Truck truck2 = new Truck(80, 25, 20);
         greedyFill(truck2, set);
