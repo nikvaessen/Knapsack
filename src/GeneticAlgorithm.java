@@ -9,7 +9,7 @@ public class GeneticAlgorithm {
     //general parameters
     public static final int POPULATION_SIZE = 100;
     public static final int GENERATIONS = 100;
-    public static final int MUTATION_CHANCE = 30;
+    public static final int MUTATION_CHANCE = 20;
 
     //specific parameters
     public static final boolean UNBOUNDED = true; // will do product mutations if true
@@ -245,6 +245,21 @@ public class GeneticAlgorithm {
         }
 
         return selectedPopulation;
+    }
+
+    // k = the number of individuals that will be selected
+    public static ProductSet tournamentSelection(int k, List<ProductSet> population)
+    {
+        ArrayList<ProductSet> selectedPopulation = new ArrayList<>();
+        Random rng = new Random();
+        int n, numberOfIndividuals = 0;
+        while(numberOfIndividuals <= k) {
+            n = rng.nextInt(population.size() - 1);
+            selectedPopulation.add(population.get(n));
+            numberOfIndividuals++;
+        }
+        sortBasedOnFitness(selectedPopulation);
+        return selectedPopulation.get(0);
     }
 
     public static ArrayList<ProductSet> getCrossedOverSubPopulation(List<ProductSet> parents)
