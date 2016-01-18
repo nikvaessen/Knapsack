@@ -222,7 +222,7 @@ public class Knapsack {
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        int frequency = 50;
+        int frequency = 1;
         for (Product product : originals) {
             //frequency += 10;
             ps.addProduct(product, frequency);
