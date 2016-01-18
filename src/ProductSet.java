@@ -146,8 +146,8 @@ public class ProductSet implements Comparable, Cloneable
              }
         }
         fitness = truck.getValue();
-        int correctionForSize = set.size() - truck.getContent().size();
-        fitness -= correctionForSize;
+//        int correctionForSize = set.size() - truck.getContent().size();
+//        fitness -= correctionForSize;
     }
 
     @Override

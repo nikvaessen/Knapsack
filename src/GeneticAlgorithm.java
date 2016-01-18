@@ -9,17 +9,18 @@ public class GeneticAlgorithm {
     //general parameters
     public static final int POPULATION_SIZE = 100;
     public static final int GENERATIONS = 500;
-    public static final int MUTATION_CHANCE = 100;
+    public static final int MUTATION_CHANCE = 30;
 
     //specific parameters
     public static final boolean UNBOUNDED = true; // will do product mutations if true
-    public static final boolean ELITE_SELECTION = true;
+    public static final boolean ELITE_SELECTION = false;
     public static final int SELECTION_PERCENT = 20; //CANNOT BE BIGGER THAN 50
+    public static final boolean DO_INSERTION_AND_DELETION = true;
     public static final int AMOUNT_OF_ROTATION_MUTATIONS  = 10;
     public static final int AMOUNT_OF_POSITION_MUTATIONS  = 10;
     public static final int AMOUNT_OF_PRODUCT_MUTATIONS   = 10;
-    public static final int AMOUNT_OF_INSERTION_MUTATIONS = 5;
-    public static final int AMOUNT_OF_DELETION_MUTATIONS  = 5;
+    public static final int AMOUNT_OF_INSERTION_MUTATIONS = 1;
+    public static final int AMOUNT_OF_DELETION_MUTATIONS  = 1;
 
     //print info of each generation
     public static final boolean PRINT_IN_GENERATION = true;
@@ -119,11 +120,13 @@ public class GeneticAlgorithm {
                 {
                     children.get(j).mutatePosition(AMOUNT_OF_POSITION_MUTATIONS);
                     children.get(j).mutateRotation(AMOUNT_OF_ROTATION_MUTATIONS);
-                    if(rng.nextBoolean()) {
-                        children.get(j).deletionMutation(rng.nextInt(AMOUNT_OF_DELETION_MUTATIONS));
-                    }
-                    else {
-                        children.get(j).insertionMutation(rng.nextInt(AMOUNT_OF_INSERTION_MUTATIONS));
+                    if (DO_INSERTION_AND_DELETION) {
+                        if(rng.nextBoolean()) {
+                            children.get(j).deletionMutation(rng.nextInt(AMOUNT_OF_DELETION_MUTATIONS));
+                        }
+                        else {
+                            children.get(j).insertionMutation(rng.nextInt(AMOUNT_OF_INSERTION_MUTATIONS));
+                        }
                     }
                     if(UNBOUNDED)
                     {
