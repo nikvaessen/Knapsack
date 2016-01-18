@@ -1,7 +1,7 @@
+import com.sun.org.apache.xpath.internal.operations.Div;
+
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by baxie on 15-12-15.
@@ -16,7 +16,6 @@ public class Knapsack {
     public static final int TRUCK_WIDTH = 25;
     public static final int TRUCK_HEIGHT = 40;
 
-
     public static void main(String[] argv) throws HollowSpace.NoRoomException{
         //create rng
         Random rng = new Random(System.currentTimeMillis());
@@ -29,12 +28,31 @@ public class Knapsack {
         Product[] originals = {A, B, C};
 
         //creation of set
-        Product[] set = createRandomProductArray(originals, rng);
+        Product[] set = createDefaultProductArray();
         System.out.println("Sorting finished");
 
         //create a truck as described in the project booklet and fill it with the made set
-        Truck truck = new Truck(165, 25, 40);
-        greedyFill(truck, set);
+
+      //  Truck truck = new Truck(165, 25, 40);
+   //   greedyFill(truck, set);
+
+
+       Truck truck1 = new Truck(10, 25, 20);
+     //   DivideFill(truck1, set);
+        truck1.add(A);
+        truck1.add(B);
+        System.out.println(truck1);
+        truck1.printTruckCoronally();
+/*
+        Truck truck2 = new Truck(80, 25, 20);
+        greedyFill(truck2, set);
+
+        Truck truck3 = new Truck(55, 25, 40);
+        greedyFill(truck3, set);
+
+        Truck truck4 = new Truck(165, 25, 20);
+        greedyFill(truck4, set);
+*/
         //backTrackFill(truck, set);
         //testShit();
     }
@@ -51,6 +69,57 @@ public class Knapsack {
         System.out.println(truck);
         truck.printTruckCoronally(0,1,1);
     }
+    public static void DivideFill(Truck truck, Product[] set)
+    {
+
+        System.out.println("####################BACKTRACK_FILL################################");
+        long beginTime = System.nanoTime();
+
+        //int value = backTrack(truck, getArrayCopy(set), 0);
+        //System.out.println("value of truck: " + value);
+        int count = 0;
+        int score;
+        int max=0;
+        int i=0;
+        Product[] order= new Product[20];
+        Product[] BestOrder;
+        while(truck.canFit(set[count])|| count != 20)
+        {
+            try{
+                truck.add(set[count]);
+                count++;
+                order[i]= set[count];
+            }
+            catch(HollowSpace.NoRoomException e)
+            {
+
+                score = truck.getValue();
+                if(score > max) {
+                    max = score;
+                    e.printStackTrace();
+                    BestOrder = order;
+                    truck.remove(count);
+                    order[i]= null;
+                    i--;
+
+                    count++;
+
+
+                }
+
+
+            }
+        }
+
+
+    long endTime = System.nanoTime();
+    System.out.println(truck);
+    truck.printTruckCoronally();
+    System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
+    System.out.println("##################################################################");
+
+}
+
 
     public static void backTrackFill(Truck truck, Product[] set)
     {
@@ -61,6 +130,9 @@ public class Knapsack {
         //int value = backTrack(truck, getArrayCopy(set), 0);
         //System.out.println("value of truck: " + value);
         int count = 0;
+        int score;
+        int max=0;
+
         while(truck.canFit(set[count]))
         {
             try{
@@ -69,13 +141,25 @@ public class Knapsack {
             }
             catch(HollowSpace.NoRoomException e)
             {
+                score = truck.getValue();
+                if(score > max) {
+                    max = score;
+
+                    e.printStackTrace();
+
+                    //int[][]
+                }
+                //truck.remove(set[count])
+                count++;
+
+
                 e.printStackTrace();
             }
         }
         long endTime = System.nanoTime();
         System.out.println(truck);
         truck.printTruckCoronally();
-        System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
+        System.out.printf("Execution time: %d ms\n", (endTime - beginTime) );
         System.out.println("##################################################################");
 
     }
@@ -112,7 +196,7 @@ public class Knapsack {
         System.out.println("####################GREEDY_FILL################################");
         long beginTime = System.currentTimeMillis();
         //sort the set from lowest to highest value/volume rating(value density)
-        //Arrays.sort(set);
+        Arrays.sort(set);
 
         //begin filling the truck with the highest value density until the truck is full or there are no more products
         int index = set.length - 1;
@@ -170,16 +254,16 @@ public class Knapsack {
 
     public static Product[] createDefaultProductArray()
     {
-        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
-        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        Product[] set = new Product[60];
+        Product[] set = new Product[3];
         int index = 0;
-        int frequency = 10;
+        int frequency = 1;
         for (Product product : originals) {
-            frequency += 10;
+            //frequency += 10;
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
             for (int i = 0; i < frequency; i++) {
                 set[index] = product.clone();
@@ -198,13 +282,15 @@ public class Knapsack {
 
     public static ProductSet getDefaultProductSet()
     {
-        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
-                new Random(System.currentTimeMillis()));
         Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
+        Set<Product> alleles = new HashSet<>();
+        alleles.addAll(Arrays.asList(originals));
 
+        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
+                new Random(System.currentTimeMillis()), alleles);
         int frequency = 10;
         for (Product product : originals) {
             frequency += 10;
@@ -215,14 +301,16 @@ public class Knapsack {
 
     public static ProductSet getDefaultUnboundedProductSet()
     {
-        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
-                new Random(System.currentTimeMillis()));
         Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
+        Set<Product> alleles = new HashSet<>();
+        alleles.addAll(Arrays.asList(originals));
 
-        int frequency = 50;
+        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
+                new Random(System.currentTimeMillis()), alleles);
+        int frequency = 30;
         for (Product product : originals) {
             //frequency += 10;
             ps.addProduct(product, frequency);

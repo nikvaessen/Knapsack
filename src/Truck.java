@@ -6,6 +6,11 @@ import java.util.Scanner;
  * Created by baxie on 16-12-15.
  */
 public class Truck extends HollowSpace{
+
+    int aCount ;
+    int bCount ;
+    int cCount ;
+    int value = 0;
     //content of the truck
     private ArrayList<Product> content;
 
@@ -26,6 +31,20 @@ public class Truck extends HollowSpace{
      * @param product the product to be added to the truck
      * @throws HollowSpace.NoRoomException when the product cannot be added to the truck.
      */
+
+    public void remove(int x) {
+        for (int i = 0; i < this.getLength(); i++) {
+            for (int j = 0; i < this.getWidth(); j++) {
+                for (int k = 0; i < this.getHeight(); k++) {
+                    if (space[i][j][k] == x) space[i][j][k] = -1;
+                }
+
+            }
+
+        }
+    }
+
+
     public void add(Product product) throws NoRoomException
     {
         try{
@@ -56,12 +75,31 @@ public class Truck extends HollowSpace{
      */
     public int getValue()
     {
-        int value = 0;
-        for(Product product : content)
+        /*for(Product product : content)
         {
             value += product.getValue();
         }
-        return value;
+        return value;*/
+
+        for(Product product : content)
+        {
+           if(product.getName() == "A")
+           {
+               aCount++ ;
+           }
+
+           else if(product.getName() == "B")
+           {
+               bCount++ ;
+           }
+
+           else if(product.getName() == "C")
+           {
+               cCount++ ;
+           }
+        }
+        value = (aCount * 3) + (bCount * 4) + (cCount * 5) ;
+        return value ;
     }
 
     /**
