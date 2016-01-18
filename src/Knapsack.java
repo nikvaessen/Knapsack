@@ -1,7 +1,5 @@
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by baxie on 15-12-15.
@@ -15,7 +13,6 @@ public class Knapsack {
     public static final int TRUCK_LENGTH = 165;
     public static final int TRUCK_WIDTH = 25;
     public static final int TRUCK_HEIGHT = 40;
-
 
     public static void main(String[] argv) throws HollowSpace.NoRoomException{
         //create rng
@@ -198,13 +195,15 @@ public class Knapsack {
 
     public static ProductSet getDefaultProductSet()
     {
-        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
-                new Random(System.currentTimeMillis()));
         Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
+        Set<Product> alleles = new HashSet<>();
+        alleles.addAll(Arrays.asList(originals));
 
+        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
+                new Random(System.currentTimeMillis()), alleles);
         int frequency = 10;
         for (Product product : originals) {
             frequency += 10;
@@ -215,14 +214,16 @@ public class Knapsack {
 
     public static ProductSet getDefaultUnboundedProductSet()
     {
-        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
-                new Random(System.currentTimeMillis()));
         Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
         Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
+        Set<Product> alleles = new HashSet<>();
+        alleles.addAll(Arrays.asList(originals));
 
-        int frequency = 1;
+        ProductSet ps = new ProductSet(new Truck(TRUCK_LENGTH, TRUCK_WIDTH, TRUCK_HEIGHT),
+                new Random(System.currentTimeMillis()), alleles);
+        int frequency = 30;
         for (Product product : originals) {
             //frequency += 10;
             ps.addProduct(product, frequency);

@@ -8,16 +8,18 @@ public class GeneticAlgorithm {
 
     //general parameters
     public static final int POPULATION_SIZE = 100;
-    public static final int GENERATIONS = 100;
-    public static final int MUTATION_CHANCE = 15;
+    public static final int GENERATIONS = 500;
+    public static final int MUTATION_CHANCE = 100;
 
     //specific parameters
-    public static final boolean UNBOUNDED = true;
+    public static final boolean UNBOUNDED = true; // will do product mutations if true
     public static final boolean ELITE_SELECTION = true;
-    public static final int SELECTION_PERCENT = 40; //CANNOT BE BIGGER THAN 50
+    public static final int SELECTION_PERCENT = 20; //CANNOT BE BIGGER THAN 50
     public static final int AMOUNT_OF_ROTATION_MUTATIONS  = 10;
     public static final int AMOUNT_OF_POSITION_MUTATIONS  = 10;
     public static final int AMOUNT_OF_PRODUCT_MUTATIONS   = 10;
+    public static final int AMOUNT_OF_INSERTION_MUTATIONS = 5;
+    public static final int AMOUNT_OF_DELETION_MUTATIONS  = 5;
 
     //print info of each generation
     public static final boolean PRINT_IN_GENERATION = true;
@@ -40,6 +42,9 @@ public class GeneticAlgorithm {
         else{
             baseLine = Knapsack.getDefaultProductSet();
         }
+//        System.out.printf("Length of alleles of baseline element in population: %d\n",
+//                baseLine.getAlleles().size());
+
         //creation of initial population
         ArrayList<ProductSet> population = new ArrayList<>();
         for(int i = 0; i < POPULATION_SIZE; i++)
@@ -47,8 +52,8 @@ public class GeneticAlgorithm {
             ProductSet ps = baseLine.clone();
             ps.shuffle();
             population.add(ps);
-            System.out.printf("Length of alleles of %d element in population: %d\n",
-                    i, population.get(i).getAlleles().size());
+//            System.out.printf("Length of alleles of %d element in population: %d\n",
+//                    i, population.get(i).getAlleles().size());
         }
         //start genetic algorithm
         evolvePopulationMatrix(GENERATIONS, population);
@@ -56,9 +61,7 @@ public class GeneticAlgorithm {
 
     public static void evolvePopulationMatrix(int generations, ArrayList<ProductSet> populationMatrix)
     {
-        if(PRINT_START_OF_METHOD){
-            System.out.printf("Starting a Genetic Algorithm with %d generations\n", generations);
-        }
+        System.out.printf("Starting a Genetic Algorithm with %d generations\n", generations);
         long beginTime = System.currentTimeMillis();
         int previousFitness = getTotalFitness(getElitistSubPopulation(40, populationMatrix));
         long endTimeGeneration, beginTimeGeneration;
@@ -105,7 +108,7 @@ public class GeneticAlgorithm {
             /*  crossover */
             //get children( 2 children per parent)
             ArrayList<ProductSet> children = getCrossedOverSubPopulation(parents);
-            children.addAll(getCrossedOverSubPopulation(parents));
+            //children.addAll(getCrossedOverSubPopulation(parents));
             //rest of new generation filled with new random individuals
             ArrayList<ProductSet> newInd = getNewIndividuals(populationMatrix.size() - parents.size() - children.size(),
                     populationMatrix.get(0));
@@ -116,6 +119,12 @@ public class GeneticAlgorithm {
                 {
                     children.get(j).mutatePosition(AMOUNT_OF_POSITION_MUTATIONS);
                     children.get(j).mutateRotation(AMOUNT_OF_ROTATION_MUTATIONS);
+                    if(rng.nextBoolean()) {
+                        children.get(j).deletionMutation(rng.nextInt(AMOUNT_OF_DELETION_MUTATIONS));
+                    }
+                    else {
+                        children.get(j).insertionMutation(rng.nextInt(AMOUNT_OF_INSERTION_MUTATIONS));
+                    }
                     if(UNBOUNDED)
                     {
                         children.get(j).mutateProducts(AMOUNT_OF_PRODUCT_MUTATIONS);
@@ -236,12 +245,11 @@ public class GeneticAlgorithm {
         }
         ArrayList<ProductSet> crossedOverPopulation = new ArrayList<>(parents.size()/2);
         int n = parents.size();
-        int cnt = 0;
         for(int i=0; i<n; i+=2)
         {
-            ProductSet child = ProductSet.createChild(parents.get(i), parents.get(i + 1));
-            crossedOverPopulation.add(cnt, child);
-            cnt++;
+            ProductSet[] children = ProductSet.createChilddren(parents.get(i), parents.get(i + 1));
+            crossedOverPopulation.add(children[0]);
+            crossedOverPopulation.add(children[1]);
         }
         return crossedOverPopulation;
     }
@@ -278,7 +286,9 @@ public class GeneticAlgorithm {
             }
             arrayList.add(ps);
         }
-        System.out.println("Done with getting new individuals");
+        if(PRINT_START_OF_METHOD){
+            System.out.println("Done with getting new individuals");
+        }
         return arrayList;
     }
 
@@ -288,7 +298,8 @@ public class GeneticAlgorithm {
         for(ProductSet p : population)
         {
             count++;
-            System.out.printf("Fitness of element %3d: %d. content: %s\n", count, p.getFitness(), p.toString());
+            System.out.printf("Fitness of element %3d: %d. Chromosome length: %d content: %s\n",
+                    count, p.getFitness(), p.getList().size() ,p.toString());
         }
     }
 
@@ -299,7 +310,8 @@ public class GeneticAlgorithm {
         for(ProductSet p : population)
         {
             count++;
-            toReturn += String.format("Fitness of element %3d: %d. content: %s\n", count, p.getFitness(), p.toString());
+            toReturn += String.format("Fitness of element %3d: %d. Chromosome length: %d content: %s\n",
+                    count, p.getFitness(), p.getList().size() ,p.toString());
         }
         return toReturn;
     }
