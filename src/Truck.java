@@ -31,6 +31,20 @@ public class Truck extends HollowSpace{
      * @param product the product to be added to the truck
      * @throws HollowSpace.NoRoomException when the product cannot be added to the truck.
      */
+
+    public void remove(int x) {
+        for (int i = 0; i < this.getLength(); i++) {
+            for (int j = 0; i < this.getWidth(); j++) {
+                for (int k = 0; i < this.getHeight(); k++) {
+                    if (space[i][j][k] == x) space[i][j][k] = -1;
+                }
+
+            }
+
+        }
+    }
+
+
     public void add(Product product) throws NoRoomException
     {
         try{
@@ -46,7 +60,7 @@ public class Truck extends HollowSpace{
     public void addPentominoe(PentominoeProduct product) throws NoRoomException
     {
         try{
-            super.fill2DArray(product,0,0,0,content.size());
+            super.fill2DArray(product,content.size());
             content.add(product);
         }
         catch (NoRoomException e)
