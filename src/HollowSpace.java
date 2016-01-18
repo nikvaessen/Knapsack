@@ -33,7 +33,7 @@ public class HollowSpace extends Space {
     }
 
     public int[][][] space;
-    int nextX,nextY, nextZ;
+    int nextX, nextY, nextZ;
 
     public HollowSpace(int length, int width, int height) throws IllegalArgumentException {
         super(length, width, height);
@@ -140,6 +140,77 @@ public class HollowSpace extends Space {
         return true;
     }
 
+    public boolean canFit2DArray(PentominoeProduct product, int x, int z, int y)
+    {
+        int [][] array = product.getProduct();
+        int objectLength = 5*array.length;
+        int objectWidth  = 5*array[0].length;
+        int objectHeight = 5;
+        //check for out of bounds
+        if(x + objectLength > space.length || z + objectWidth > space[0].length ||
+                y + objectHeight > space[0][0].length)
+        {
+            return false;
+        }
+
+        if(!product.isX() && product.isY() && product.isZ())
+        {
+            System.out.println("width=" + objectWidth + " length=" + objectLength);
+            for(int i = 0; i < objectHeight; i++)
+            {
+                for(int j = 0; j < objectLength; j++)
+                {
+                    for(int k = 0; k < objectWidth; k++)
+                    {
+                        int value = space[i+x][j+z][k+y];
+                        if(value != -1 )
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        else if(product.isX() && !product.isY() && product.isZ())
+        {
+            for(int i = 0; i < objectHeight; i++)
+            {
+                for(int j = 0; j < objectLength; j++)
+                {
+                    for(int k = 0; k < objectWidth; k++)
+                    {
+                        int value = space[j+x][k+z][i+y];
+                        if(value != -1 )
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        else if(product.isX() && product.isY() && !product.isZ())
+        {
+            for(int i = 0; i < objectHeight; i++)
+            {
+                for(int j = 0; j < objectLength; j++)
+                {
+                    for(int k = 0; k < objectWidth; k++)
+                    {
+                        int value = space[j+x][i+z][k+y];
+                        if(value != -1 )
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     public boolean canFit(Space object)
     {
         try{
@@ -219,13 +290,90 @@ public class HollowSpace extends Space {
         }
     }
 
-    public void fill2DArray(PentominoeProduct product, int xBegin, int zBegin, int yBegin, int value) throws NoRoomException
+    public int[] getViableCoordinates2DArray(PentominoeProduct product) throws NoRoomException
+    {
+        int [][] array = product.getProduct();
+        product.incrementI();
+        int objectLength = 5*array.length;
+        int objectWidth  = 5*array[0].length;
+        int objectHeight = 5;
+        if(!product.isX() && product.isY() && product.isZ()) {
+            try {
+                for (int i = 0; i < objectHeight; i++) {
+                    for (int j = 0; j < objectLength; j++) {
+                        for (int k = 0; k < objectWidth; k++) {
+                            int value = space[i][k][j];
+                            if (value == -1 && canFit2DArray(product, i, k, j)) {
+                                //System.out.printf("returned %s as viable coordinates\n", Arrays.toString(new int[] {x,z,y}));
+                                return new int[]{i, k, j};
+                            }
+                        }
+                    }
+                }
+                //it was not able to find a viable spot so there is no room anymore
+                throw new NoRoomException("Not able to find a viable coordinate in the truck");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new NoRoomException("Array out of bound exception trying to search for viable coordinates");
+            }
+        }
+        else if(product.isX() && !product.isY() && product.isZ()) {
+            try {
+                for(int i = 0; i < objectHeight; i++)
+                {
+                    for(int j = 0; j < objectLength; j++)
+                    {
+                        for(int k = 0; k < objectWidth; k++)
+                        {
+                            int value = space[j][k][i];
+                            if (value == -1 && canFit2DArray(product, j, k, i)) {
+                                //System.out.printf("returned %s as viable coordinates\n", Arrays.toString(new int[] {x,z,y}));
+                                return new int[]{j, k, i};
+                            }
+                        }
+                    }
+                }
+                //it was not able to find a viable spot so there is no room anymore
+                throw new NoRoomException("Not able to find a viable coordinate in the truck");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new NoRoomException("Array out of bound exception trying to search for viable coordinates");
+            }
+        }
+        else
+        try {
+            for(int i = 0; i < objectHeight; i++)
+            {
+                for(int j = 0; j < objectLength; j++)
+                {
+                    for(int k = 0; k < objectWidth; k++)
+                    {
+                        int value = space[j][i][k];
+                        if (value == -1 && canFit2DArray(product, j, i, k)) {
+                            //System.out.printf("returned %s as viable coordinates\n", Arrays.toString(new int[] {x,z,y}));
+                            return new int[]{j, i, k};
+                        }
+                    }
+                }
+            }
+            //it was not able to find a viable spot so there is no room anymore
+            throw new NoRoomException("Not able to find a viable coordinate in the truck");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new NoRoomException("Array out of bound exception trying to search for viable coordinates");
+        }
+
+    }
+
+
+    public void fill2DArray(PentominoeProduct product, int value) throws NoRoomException
     {
         int[][] toFill = product.getArray();
         int length = 5*toFill.length;
         int width = 5*toFill[0].length;
         // get viable coordinates
-        if(!product.isX() && product.isY() && product.isZ())
+        int[] coordinates = getViableCoordinates2DArray(product);
+        int xBegin = coordinates[0];
+        int zBegin = coordinates[1];
+        int yBegin = coordinates[2];
+        if(!product.isX() && product.isY() && product.isZ() && canFit2DArray(product, xBegin, zBegin, yBegin))
         {
             System.out.println("width=" + width + " length=" + length);
             for(int i = 0; i < 4; i++)
@@ -242,7 +390,7 @@ public class HollowSpace extends Space {
             }
         }
 
-        else if(product.isX() && !product.isY() && product.isZ())
+        else if(product.isX() && !product.isY() && product.isZ() && canFit2DArray(product, xBegin, zBegin, yBegin))
         {
             for(int i = 0; i < 4; i++)
             {
@@ -257,7 +405,7 @@ public class HollowSpace extends Space {
             }
         }
 
-       else if(product.isX() && product.isY() && !product.isZ())
+       else if(product.isX() && product.isY() && !product.isZ() && canFit2DArray(product, xBegin, zBegin, yBegin))
         {
             for(int i = 0; i < 4; i++)
             {

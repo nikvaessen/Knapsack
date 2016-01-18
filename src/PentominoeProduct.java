@@ -3,12 +3,13 @@ import java.util.ArrayList;
 /**
  * Created by Bia on 15-Jan-16.
  */
-public class PentominoeProduct extends Product{
+public class PentominoeProduct extends Product implements typeOfProduct{
 
     private String name;
     private int[][] array;
     private int[][] r2, r3, r4;
     private boolean x, y, z;
+    int i;
     public static int[][] p = { {1, 1},
                                 {1, 1},
                                 {1, 0}
@@ -57,6 +58,23 @@ public class PentominoeProduct extends Product{
         rotations.add(r4);
         return rotations;
     }
+
+    public void setI(int value)
+    {
+        i = value;
+    }
+
+    public int getI()
+    {
+        return i;
+    }
+
+    public void incrementI()
+    {
+        i++;
+        if(i==4) i=0;
+    }
+
 
     public boolean isX() {
         return x;
@@ -158,5 +176,12 @@ public class PentominoeProduct extends Product{
             }
         }
         return rotatedMatrix;
+    }
+
+    public int[][] getProduct()
+    {
+        ArrayList<int[][]> rotations;
+        rotations = getAllRotations();
+        return rotations.get(i);
     }
 }

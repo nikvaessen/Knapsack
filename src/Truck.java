@@ -41,7 +41,7 @@ public class Truck extends HollowSpace{
     public void addPentominoe(PentominoeProduct product) throws NoRoomException
     {
         try{
-            super.fill2DArray(product,0,0,0,content.size());
+            super.fill2DArray(product,content.size());
             content.add(product);
         }
         catch (NoRoomException e)

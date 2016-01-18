@@ -29,12 +29,20 @@ public class Tester
 //        System.out.println("The fitness of the truck:" + test.getFitness());
 //        System.out.println("The list:" + test.getList().size());
 //        test.getTruck().printTruckCoronally();
-        PentominoeProduct p = new PentominoeProduct("p",3);
+        PentominoeProduct p = new PentominoeProduct("t",3);
         try {
             truck.addPentominoe(p);
         } catch (HollowSpace.NoRoomException e) {
             e.printStackTrace();
         }
+        PentominoeProduct t = new PentominoeProduct("p",3);
+        try {
+            truck.addPentominoe(t);
+        } catch (HollowSpace.NoRoomException e) {
+            e.printStackTrace();
+        }
+
+
         truck.printTruckCoronally();
 
 
