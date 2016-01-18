@@ -35,6 +35,9 @@ public class RandomFill {
         int chosenProduct = 0;
         int valueSum = 0;
         long endTime;
+
+
+
         while(true)
         {
             chosenProduct = r.nextInt(3);

@@ -175,9 +175,9 @@ public class Knapsack {
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        Product[] set = new Product[3];
+        Product[] set = new Product[96 ];
         int index = 0;
-        int frequency = 1;
+        int frequency = 32;
         for (Product product : originals) {
             //frequency += 10;
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
@@ -222,7 +222,7 @@ public class Knapsack {
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        int frequency = 1;
+        int frequency = 10;
         for (Product product : originals) {
             //frequency += 10;
             ps.addProduct(product, frequency);
