@@ -199,16 +199,16 @@ public class Knapsack {
 
     public static Product[] createDefaultProductArray()
     {
-        Product A = new Product(10, 10, 20, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
-        Product B = new Product(10, 15, 20, 6/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
-        Product C = new Product(15, 15, 15, 7/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
+        Product A = new Product(10, 10, 20, 3/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "A");
+        Product B = new Product(10, 15, 20, 4/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "B");
+        Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        Product[] set = new Product[90];
+        Product[] set = new Product[3];
         int index = 0;
-        int frequency = 10;
+        int frequency = 1;
         for (Product product : originals) {
-            frequency += 10;
+            //frequency += 10;
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
             for (int i = 0; i < frequency; i++) {
                 set[index] = product.clone();
@@ -251,7 +251,7 @@ public class Knapsack {
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        int frequency = 50;
+        int frequency = 1;
         for (Product product : originals) {
             //frequency += 10;
             ps.addProduct(product, frequency);

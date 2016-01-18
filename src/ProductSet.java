@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by baxie on 11-1-16.
@@ -15,16 +12,23 @@ public class ProductSet implements Comparable, Cloneable
     private boolean fitnessKnown;
     private int fitness;
 
+    //alleles
+    private Set alleles;
+
     public ProductSet(Truck truck,  Random rng)
     {
         set = new ArrayList<>();
         this.truck = truck.clone();
         this.rng = rng;
         fitnessKnown = false;
+        alleles = new LinkedHashSet();
     }
 
     public void addProduct(Product p, int frequency)
     {
+        boolean check = alleles.add(p);
+        System.out.printf("tried to add product with name %s to the set. succes: %b\n", p.getName(), check);
+        System.out.printf("Size of set: %d\n", alleles.size());
         for(int i = 0; i < frequency; i++)
         {
             set.add(p);
@@ -34,9 +38,8 @@ public class ProductSet implements Comparable, Cloneable
 
     public void add(Product p)
     {
-        set.add(p);
+        addProduct(p, 1);
     }
-
 
     public void mutatePosition(int mutations)
     {
@@ -56,6 +59,21 @@ public class ProductSet implements Comparable, Cloneable
             Product[] alleles = set.get(index).getRotations();
             set.remove(index);
             set.add(index,alleles[rng.nextInt(alleles.length)]);
+        }
+    }
+
+    public void mutateProducts(int mutations)
+    {
+        fitnessKnown = false;
+        Object[] alleles = this.alleles.toArray();
+        System.out.printf("Length of set of alleles: %d. Global length: %d\n", alleles.length, this.alleles.size());
+        for(int i = 0; i < mutations; i++)
+        {
+            int index = rng.nextInt(set.size());
+            set.remove(index);
+            Product mutatedProduct = (Product) alleles[rng.nextInt(alleles.length)];
+            mutatedProduct = mutatedProduct.clone();
+            set.add(mutatedProduct);
         }
     }
 
@@ -133,6 +151,8 @@ public class ProductSet implements Comparable, Cloneable
         return set;
     }
 
+    public Set getAlleles() { return alleles;}
+
     public Truck getTruck()
     {
         return truck;
@@ -169,17 +189,18 @@ public class ProductSet implements Comparable, Cloneable
         {
             if(rng.nextBoolean())
             {
-                child.getList().add(i, father.getList().get(i));
+                //child.getList().add(i, father.getList().get(i));
+                child.add((Product)father.getList().get(i));
             }
             else
             {
-                child.getList().add(i, mother.getList().get(i));
+                //child.getList().add(i, mother.getList().get(i));
+                child.add((Product)mother.getList().get(i));
             }
         }
 
         return child;
     }
-
 
     @Override
     public ProductSet clone()
@@ -190,6 +211,17 @@ public class ProductSet implements Comparable, Cloneable
             clone.add(p.clone());
         }
         return clone;
+    }
+
+    @Override
+    public String toString()
+    {
+        String toReturn = "[";
+        for(Product p : set)
+        {
+            toReturn += p.getName() + ",";
+        }
+        return toReturn + "]";
     }
 }
 
