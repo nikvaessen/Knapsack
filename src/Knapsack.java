@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Div;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,11 +36,16 @@ public class Knapsack {
 
         //create a truck as described in the project booklet and fill it with the made set
 
-        Truck truck = new Truck(165, 25, 40);
-      greedyFill(truck, set);
+      //  Truck truck = new Truck(165, 25, 40);
+   //   greedyFill(truck, set);
 
-//        Truck truck1 = new Truck(10, 25, 20);
-  //      backTrackFill(truck1, set);
+
+       Truck truck1 = new Truck(10, 25, 20);
+     //   DivideFill(truck1, set);
+        truck1.add(A);
+        truck1.add(B);
+        System.out.println(truck1);
+        truck1.printTruckCoronally();
 /*
         Truck truck2 = new Truck(80, 25, 20);
         greedyFill(truck2, set);
@@ -65,6 +72,57 @@ public class Knapsack {
         System.out.println(truck);
         truck.printTruckCoronally(0,1,1);
     }
+    public static void DivideFill(Truck truck, Product[] set)
+    {
+
+        System.out.println("####################BACKTRACK_FILL################################");
+        long beginTime = System.nanoTime();
+
+        //int value = backTrack(truck, getArrayCopy(set), 0);
+        //System.out.println("value of truck: " + value);
+        int count = 0;
+        int score;
+        int max=0;
+        int i=0;
+        Product[] order= new Product[20];
+        Product[] BestOrder;
+        while(truck.canFit(set[count])|| count != 20)
+        {
+            try{
+                truck.add(set[count]);
+                count++;
+                order[i]= set[count];
+            }
+            catch(HollowSpace.NoRoomException e)
+            {
+
+                score = truck.getValue();
+                if(score > max) {
+                    max = score;
+                    e.printStackTrace();
+                    BestOrder = order;
+                    truck.remove(count);
+                    order[i]= null;
+                    i--;
+
+                    count++;
+
+
+                }
+
+
+            }
+        }
+
+
+    long endTime = System.nanoTime();
+    System.out.println(truck);
+    truck.printTruckCoronally();
+    System.out.printf("Execution time: %d ms\n", ((double)endTime - beginTime) / 10e9);
+    System.out.println("##################################################################");
+
+}
+
 
     public static void backTrackFill(Truck truck, Product[] set)
     {
