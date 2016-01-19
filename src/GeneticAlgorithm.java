@@ -7,26 +7,26 @@ import java.util.*;
 public class GeneticAlgorithm {
 
     //general parameters
-    public static final int POPULATION_SIZE = 300;
-    public static final int GENERATIONS = 100;
+    public static final int POPULATION_SIZE = 10;
+    public static final int GENERATIONS = 3;
     public static final int MUTATION_CHANCE = 10;
 
-    //specific parameters
+    //specific parameter
     public static final boolean UNBOUNDED = true; // will do product mutations if true
     public static final boolean ELITE_SELECTION = false;
     public static final int SELECTION_PERCENT = 40; //CANNOT BE BIGGER THAN 50
-    public static final boolean DO_INSERTION_AND_DELETION = true;
-    public static final int AMOUNT_OF_ROTATION_MUTATIONS  = 10;
-    public static final int AMOUNT_OF_POSITION_MUTATIONS  = 10;
-    public static final int AMOUNT_OF_PRODUCT_MUTATIONS   = 10;
+    public static final boolean DO_INSERTION_AND_DELETION = false;
+    public static final int AMOUNT_OF_ROTATION_MUTATIONS  = 1;
+    public static final int AMOUNT_OF_POSITION_MUTATIONS  = 1;
+    public static final int AMOUNT_OF_PRODUCT_MUTATIONS   = 1;
     public static final int AMOUNT_OF_INSERTION_MUTATIONS = 1;
     public static final int AMOUNT_OF_DELETION_MUTATIONS  = 1;
 
     //print info of each generation
     public static final boolean PRINT_IN_GENERATION = true;
-    public static final boolean PRINT_SUBPOPULATIONS = false;
-    public static final boolean PRINT_CONTENT = false;
-    public static final boolean PRINT_START_OF_METHOD = false;
+    public static final boolean PRINT_SUBPOPULATIONS = true;
+    public static final boolean PRINT_CONTENT = true;
+    public static final boolean PRINT_START_OF_METHOD = true;
 
     public static Random rng = new Random(System.currentTimeMillis());
 
@@ -64,7 +64,7 @@ public class GeneticAlgorithm {
     {
         System.out.printf("Starting a Genetic Algorithm with %d generations\n", generations);
         long beginTime = System.currentTimeMillis();
-        int previousFitness = getTotalFitness(getElitistSubPopulation(40, populationMatrix));
+        int previousFitness = 0;
         long endTimeGeneration, beginTimeGeneration;
         for(int i = 0; i < generations; i++)
         {
@@ -176,7 +176,7 @@ public class GeneticAlgorithm {
         System.out.printf("Execution time: %d ms\t %d s\n", endTime - beginTime, (endTime - beginTime) / 1000 );
         System.out.printf("Truck with highest value: %d\n", populationMatrix.get(0).getFitness());
         System.out.printf("Content of truck: \n");
-        populationMatrix.get(0).getFilledTruck().printTruckCoronally();
+        //populationMatrix.get(0).getFilledTruck().printTruckCoronally();
     }
 
     public static void sortBasedOnFitness(List<ProductSet> arrayList)
@@ -271,7 +271,7 @@ public class GeneticAlgorithm {
         int n = parents.size();
         for(int i=0; i<n; i+=2)
         {
-            ProductSet[] children = ProductSet.createChilddren(parents.get(i), parents.get(i + 1));
+            ProductSet[] children = ProductSet.createchildren(parents.get(i), parents.get(i + 1));
             crossedOverPopulation.add(children[0]);
             crossedOverPopulation.add(children[1]);
         }

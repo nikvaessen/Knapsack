@@ -6,11 +6,11 @@ import java.util.Scanner;
  * Created by baxie on 16-12-15.
  */
 public class Truck extends HollowSpace{
-
-    int aCount ;
-    int bCount ;
-    int cCount ;
-    int value = 0;
+//
+//    int aCount ;
+//    int bCount ;
+//    int cCount ;
+//    int value = 0;
     //content of the truck
     private ArrayList<Product> content;
 
@@ -69,36 +69,43 @@ public class Truck extends HollowSpace{
         }
     }
 
+    @Override
+    public void emptySpace()
+    {
+        super.emptySpace();
+        this.content.removeAll(content);
+    }
+
     /**
      * returns the sum of all the products currently in the truck
      * @return the sum of the values of all products in the truck
      */
     public int getValue()
     {
-        /*for(Product product : content)
+        int value = 0;
+        for(Product product : content)
         {
             value += product.getValue();
         }
-        return value;*/
-
-        for(Product product : content)
-        {
-           if(product.getName() == "A")
-           {
-               aCount++ ;
-           }
-
-           else if(product.getName() == "B")
-           {
-               bCount++ ;
-           }
-
-           else if(product.getName() == "C")
-           {
-               cCount++ ;
-           }
-        }
-        value = (aCount * 3) + (bCount * 4) + (cCount * 5) ;
+//        for(Product product : content)
+//        {
+//           if(product.getName() == "A")
+//           {
+//               aCount++ ;
+//           }
+//
+//           else if(product.getName() == "B")
+//           {
+//               bCount++ ;
+//           }
+//
+//           else if(product.getName() == "C")
+//           {
+//               cCount++ ;
+//           }
+//        }
+//        value = (aCount * 3) + (bCount * 4) + (cCount * 5) ;
+        System.out.println("Size of content: " + content.size() + ". Value: " + value + ".");
         return value ;
     }
 

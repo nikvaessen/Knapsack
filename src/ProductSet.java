@@ -89,6 +89,7 @@ public class ProductSet implements Comparable, Cloneable
 
     public void insertionMutation(int amount)
     {
+        fitnessKnown = false;
         Object[] alleles = this.alleles.toArray();
         for(int i = 0; i < amount; i++)
         {
@@ -99,6 +100,7 @@ public class ProductSet implements Comparable, Cloneable
 
     public void deletionMutation(int amount)
     {
+        fitnessKnown = false;
         for(int i = 0; i < amount; i++)
         {
             set.remove(rng.nextInt(set.size()));
@@ -146,6 +148,7 @@ public class ProductSet implements Comparable, Cloneable
              }
         }
         fitness = truck.getValue();
+        truck.emptySpace();
 //        int correctionForSize = set.size() - truck.getContent().size();
 //        fitness -= correctionForSize;
     }
@@ -212,7 +215,7 @@ public class ProductSet implements Comparable, Cloneable
         return set.size();
     }
 
-    public static ProductSet[] createChilddren(ProductSet father, ProductSet mother)
+    public static ProductSet[] createchildren(ProductSet father, ProductSet mother)
     {
         //one point crossover
         Random rng = new Random();
