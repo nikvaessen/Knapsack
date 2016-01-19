@@ -105,7 +105,7 @@ public class Truck extends HollowSpace{
 //           }
 //        }
 //        value = (aCount * 3) + (bCount * 4) + (cCount * 5) ;
-        System.out.println("Size of content: " + content.size() + ". Value: " + value + ".");
+        //System.out.println("Size of content: " + content.size() + ". Value: " + value + ".");
         return value ;
     }
 

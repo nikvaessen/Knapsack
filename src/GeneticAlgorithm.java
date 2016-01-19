@@ -7,8 +7,8 @@ import java.util.*;
 public class GeneticAlgorithm {
 
     //general parameters
-    public static final int POPULATION_SIZE = 10;
-    public static final int GENERATIONS = 3;
+    public static final int POPULATION_SIZE = 500;
+    public static final int GENERATIONS = 100;
     public static final int MUTATION_CHANCE = 10;
 
     //specific parameter
@@ -24,8 +24,8 @@ public class GeneticAlgorithm {
 
     //print info of each generation
     public static final boolean PRINT_IN_GENERATION = true;
-    public static final boolean PRINT_SUBPOPULATIONS = true;
-    public static final boolean PRINT_CONTENT = true;
+    public static final boolean PRINT_SUBPOPULATIONS = false;
+    public static final boolean PRINT_CONTENT = false;
     public static final boolean PRINT_START_OF_METHOD = true;
 
     public static Random rng = new Random(System.currentTimeMillis());
@@ -302,11 +302,14 @@ public class GeneticAlgorithm {
             List psContent = ps.getList();
             for(int j = 0; j < psContent.size(); j++)
             {
-                ps.mutateRotation(ps.size());
-                if(UNBOUNDED)
-                {
-                    ps.mutateProducts(ps.size());
+                if(rng.nextInt(100) > MUTATION_CHANCE){
+                    ps.mutateRotation(ps.size());
+                    if(UNBOUNDED)
+                    {
+                     ps.mutateProducts(ps.size());
+                    }
                 }
+
             }
             arrayList.add(ps);
         }
