@@ -8,13 +8,13 @@ public class GeneticAlgorithm {
 
     //general parameters
     public static final int POPULATION_SIZE = 100;
-    public static final int GENERATIONS = 500;
-    public static final int MUTATION_CHANCE = 30;
+    public static final int GENERATIONS = 100;
+    public static final int MUTATION_CHANCE = 20;
 
     //specific parameters
     public static final boolean UNBOUNDED = true; // will do product mutations if true
     public static final boolean ELITE_SELECTION = false;
-    public static final int SELECTION_PERCENT = 20; //CANNOT BE BIGGER THAN 50
+    public static final int SELECTION_PERCENT = 40; //CANNOT BE BIGGER THAN 50
     public static final boolean DO_INSERTION_AND_DELETION = true;
     public static final int AMOUNT_OF_ROTATION_MUTATIONS  = 10;
     public static final int AMOUNT_OF_POSITION_MUTATIONS  = 10;
@@ -88,23 +88,29 @@ public class GeneticAlgorithm {
             /*  pre-selection   */
             //first sort them on highest value
             sortBasedOnFitness(populationMatrix);
+
             //print state of population
             if(PRINT_IN_GENERATION && PRINT_CONTENT){
                 printFitness(populationMatrix);
             }
 
             /*  selection   */
-            ArrayList<ProductSet> parents;
+
+            ArrayList<ProductSet> eliteParents = getElitistSubPopulation(1.0/4.0*SELECTION_PERCENT, populationMatrix);
+            ArrayList<ProductSet> rouletteParents = rouletteWheelSelection(3.0/4.0*SELECTION_PERCENT, populationMatrix);
+            ArrayList<ProductSet> parents = new ArrayList<>();
+            parents.addAll(eliteParents);
+            parents.addAll(rouletteParents);
             //elitist selection
-            if(ELITE_SELECTION)
-            {
-                parents = getElitistSubPopulation(SELECTION_PERCENT, populationMatrix);
-            }
-            //roulette wheel selection
-            else
-            {
-                parents = rouletteWheelSelection(SELECTION_PERCENT, populationMatrix);
-            }
+//            if(ELITE_SELECTION)
+//            {
+//                parents = getElitistSubPopulation(SELECTION_PERCENT, populationMatrix);
+//            }
+//            //roulette wheel selection
+//            else
+//            {
+//                parents = rouletteWheelSelection(SELECTION_PERCENT, populationMatrix);
+//            }
 
             /*  crossover */
             //get children( 2 children per parent)
@@ -195,12 +201,12 @@ public class GeneticAlgorithm {
         return fitnessSum;
     }
 
-    public static ArrayList<ProductSet> getElitistSubPopulation(int percent, List<ProductSet> population)
+    public static ArrayList<ProductSet> getElitistSubPopulation(double percent, List<ProductSet> population)
     {
         if(PRINT_START_OF_METHOD){
             System.out.println("Getting elitist population");
         }
-        double n = population.size() * (double) percent / 100;
+        double n = population.size() *  percent / 100;
         ArrayList<ProductSet> elitistSubPopulation = new ArrayList<>();
         //sortBasedOnFitness(population);
         for(int i=0; i<n; i++)
@@ -209,14 +215,14 @@ public class GeneticAlgorithm {
         return elitistSubPopulation;
     }
 
-    public static ArrayList<ProductSet> rouletteWheelSelection(int percent, List<ProductSet> population)
+    public static ArrayList<ProductSet> rouletteWheelSelection(double percent, List<ProductSet> population)
     {
         if(PRINT_START_OF_METHOD){
             System.out.println("starting selection with roulette wheel");
         }
         ArrayList<ProductSet> selectedPopulation = new ArrayList<>();
         int sumOfFitnesses = 0, m, k=0, fitness = 0;
-        double n = population.size() * (double) percent / 100;
+        double n = population.size() *  percent / 100;
         Random rng = new Random();
 
         for(int i=0; i<population.size(); i++)
@@ -239,6 +245,21 @@ public class GeneticAlgorithm {
         }
 
         return selectedPopulation;
+    }
+
+    // k = the number of individuals that will be selected
+    public static ProductSet tournamentSelection(int k, List<ProductSet> population)
+    {
+        ArrayList<ProductSet> selectedPopulation = new ArrayList<>();
+        Random rng = new Random();
+        int n, numberOfIndividuals = 0;
+        while(numberOfIndividuals <= k) {
+            n = rng.nextInt(population.size() - 1);
+            selectedPopulation.add(population.get(n));
+            numberOfIndividuals++;
+        }
+        sortBasedOnFitness(selectedPopulation);
+        return selectedPopulation.get(0);
     }
 
     public static ArrayList<ProductSet> getCrossedOverSubPopulation(List<ProductSet> parents)
