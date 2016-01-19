@@ -33,12 +33,11 @@ public class Knapsack {
 
         //create a truck as described in the project booklet and fill it with the made set
 
-      //  Truck truck = new Truck(165, 25, 40);
-   //   greedyFill(truck, set);
+        Truck truck = new Truck(165, 25, 40);
+        greedyFill(truck, set);
 
-
-       Truck truck1 = new Truck(10, 25, 20);
-     //   DivideFill(truck1, set);
+       /* Truck truck1 = new Truck(10, 25, 20);
+     // DivideFill(truck1, set);
         truck1.add(A);
         truck1.add(B);
         System.out.println(truck1);
@@ -54,7 +53,7 @@ public class Knapsack {
         greedyFill(truck4, set);
 */
         //backTrackFill(truck, set);
-        //testShit();
+        //testShit();*/
     }
 
     public static void testShit() throws HollowSpace.NoRoomException
@@ -259,11 +258,11 @@ public class Knapsack {
         Product C = new Product(15, 15, 15, 5/*MINIMUM_PRIZE + rng.nextInt(MAXIMUM_PRIZE - MINIMUM_PRIZE)*/, "C");
         Product[] originals = {A, B, C};
 
-        Product[] set = new Product[3];
+        Product[] set = new Product[90];
         int index = 0;
-        int frequency = 1;
+        int frequency = 10;
         for (Product product : originals) {
-            //frequency += 10;
+            frequency += 10;
             System.out.printf("Filling the set with %d pieces of product %s\n", frequency, product.getName());
             for (int i = 0; i < frequency; i++) {
                 set[index] = product.clone();
