@@ -12,9 +12,9 @@ public class PerfectPento
         PerfectPento p = new PerfectPento() ;
         p.perfectSolution() ;
 
-        int x ;
+        int x = 0;
         int y = 0;
-        int z ;
+        int z = 0;
 
         for(z = 0 ; z < p.container[0][0].length ; z++)
         {
@@ -72,22 +72,11 @@ public class PerfectPento
            {
                container[i][j][k] = 99 ;
                j++ ;
-               container[i][j][k] = 98 ;
+               container[i][j][k] = 66 ;
                j++ ;
-               container[i][j][k] = 98 ;
+               container[i][j][k] = 66 ;
                j++ ;
-               container[i][j][k] = 98 ;
-               j++ ;
-               container[i][j][k] = 99 ;
-               j = 0 ;
-               i++ ;
-               container[i][j][k] = 99 ;
-               j++ ;
-               container[i][j][k] = 99 ;
-               j++ ;
-               container[i][j][k] = 98 ;
-               j++ ;
-               container[i][j][k] = 99 ;
+               container[i][j][k] = 66 ;
                j++ ;
                container[i][j][k] = 99 ;
                j = 0 ;
@@ -96,7 +85,18 @@ public class PerfectPento
                j++ ;
                container[i][j][k] = 99 ;
                j++ ;
-               container[i][j][k] = 98 ;
+               container[i][j][k] = 66 ;
+               j++ ;
+               container[i][j][k] = 99 ;
+               j++ ;
+               container[i][j][k] = 99 ;
+               j = 0 ;
+               i++ ;
+               container[i][j][k] = 99 ;
+               j++ ;
+               container[i][j][k] = 99 ;
+               j++ ;
+               container[i][j][k] = 66 ;
                j++ ;
                container[i][j][k] = 99 ;
                j++ ;
