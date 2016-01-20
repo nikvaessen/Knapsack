@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import java.util.ArrayList;
@@ -99,66 +100,78 @@ public class GUI extends Application{
         grid.setGridLinesVisible(false);
         grid.setPadding(new Insets(5));
 
+        Label label = new Label("Choose the algorithm");
+        label.setFont(new Font(15));
+        GridPane.setConstraints(label, 0, 0, 4, 1, HPos.CENTER, VPos.CENTER);
 
         Button greedy = new Button("Greedy Algorithm");
         greedy.setPrefWidth(195);
         greedy.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
+                if(group.getChildren().size() != 0){
+                    group.getChildren().remove(0);
+                }
                 group.getChildren().add(create3dContent(greedy()));
                 TextArea description = new TextArea(result);
                 description.setEditable(false);
-                GridPane.setConstraints(description, 0, 1, 4, 3);
+                GridPane.setConstraints(description, 0, 2, 4, 3);
                 grid.getChildren().add(description);
             }
         });
 
-        GridPane.setConstraints(greedy, 0, 0, 1, 1, HPos.CENTER, VPos.CENTER);
+        GridPane.setConstraints(greedy, 0, 1, 1, 1, HPos.CENTER, VPos.CENTER);
 
         Button easy = new Button("Divide-and-conquer");
         easy.setPrefWidth(195);
         easy.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 try {
-                    group.getChildren().remove(0);
+                    if(group.getChildren().size() != 0){
+                        group.getChildren().remove(0);
+                    }
                     group.getChildren().add(create3dContent(easy()));
                     TextArea description = new TextArea(result);
                     description.setEditable(false);
-                    GridPane.setConstraints(description, 0, 1, 4, 3);
+                    GridPane.setConstraints(description, 0, 2, 4, 3);
                     grid.getChildren().add(description);
                 } catch (HollowSpace.NoRoomException e1) {
                     e1.printStackTrace();
                 }
             }
         });
-        GridPane.setConstraints(easy, 1, 0, 1, 1, HPos.CENTER, VPos.CENTER);
+        GridPane.setConstraints(easy, 1, 1, 1, 1, HPos.CENTER, VPos.CENTER);
         Button random = new Button("Random Placement");
         random.setPrefWidth(195);
         random.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                group.getChildren().remove(0);
+                if(group.getChildren().size() != 0){
+                    group.getChildren().remove(0);
+                }
                 group.getChildren().add(create3dContent(random()));
                 TextArea description = new TextArea(result);
                 description.setEditable(false);
-                GridPane.setConstraints(description, 0, 1, 4, 3);
+                GridPane.setConstraints(description, 0, 2, 4, 3);
                 grid.getChildren().add(description);
             }
         });
 
-        GridPane.setConstraints(random, 2, 0, 1, 1, HPos.CENTER, VPos.CENTER);
+        GridPane.setConstraints(random, 2, 1, 1, 1, HPos.CENTER, VPos.CENTER);
 
         Button genetic = new Button("Genetic Algorithm");
         genetic.setPrefWidth(195);
         genetic.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                group.getChildren().remove(0);
+                if(group.getChildren().size() != 0){
+                    group.getChildren().remove(0);
+                }
                 group.getChildren().add(create3dContent(genetic()));
                 TextArea description = new TextArea(result);
                 description.setEditable(false);
-                GridPane.setConstraints(description, 0, 1, 4, 3);
+                GridPane.setConstraints(description, 0, 2, 4, 3);
                 grid.getChildren().add(description);
             }
         });
-        GridPane.setConstraints(genetic, 3, 0, 1, 1, HPos.CENTER, VPos.CENTER);
+        GridPane.setConstraints(genetic, 3, 1, 1, 1, HPos.CENTER, VPos.CENTER);
 
 //        Button pento = new Button("Pentominoes");
 //        pento.setPrefWidth();
@@ -174,7 +187,7 @@ public class GUI extends Application{
 //            }
 //        });
 
-        grid.getChildren().addAll(greedy, easy, random, genetic);
+        grid.getChildren().addAll(label, greedy, easy, random, genetic);
 
         root.setAlignment(subsceneUI, Pos.BOTTOM_LEFT);
         root.getChildren().addAll(subsceneUI, subscene3d);
@@ -396,7 +409,7 @@ public class GUI extends Application{
                         Box box = new Box(5, 5, 5);
                         box.setMaterial(new PhongMaterial(Color.WHITE));
                         box.setTranslateX( -100 + 6*i );
-                        box.setTranslateY( -100 + 6*j );
+                        box.setTranslateY( 6*j );
                         box.setTranslateZ( 6*k );
                         root.getChildren().add(box);
 
@@ -406,7 +419,7 @@ public class GUI extends Application{
                         Box box = new Box(5, 5, 5);
                         box.setMaterial(material);
                         box.setTranslateX( -100 + 6*i );
-                        box.setTranslateY( -100 + 6*j );
+                        box.setTranslateY( 6*j );
                         box.setTranslateZ( 6*k );
                         root.getChildren().add(box);
                     }

@@ -7,18 +7,18 @@ import java.util.*;
 public class GeneticAlgorithm {
 
     //general parameters
-    public static final int POPULATION_SIZE = 500;
-    public static final int GENERATIONS = 100;
-    public static final int MUTATION_CHANCE = 10;
+    public static final int POPULATION_SIZE = 100;
+    public static final int GENERATIONS = 20;
+    public static final int MUTATION_CHANCE = 40;
 
     //specific parameter
     public static final boolean UNBOUNDED = true; // will do product mutations if true
     public static final boolean ELITE_SELECTION = false;
     public static final int SELECTION_PERCENT = 40; //CANNOT BE BIGGER THAN 50
     public static final boolean DO_INSERTION_AND_DELETION = false;
-    public static final int AMOUNT_OF_ROTATION_MUTATIONS  = 1;
-    public static final int AMOUNT_OF_POSITION_MUTATIONS  = 1;
-    public static final int AMOUNT_OF_PRODUCT_MUTATIONS   = 1;
+    public static final int AMOUNT_OF_ROTATION_MUTATIONS  = 10;
+    public static final int AMOUNT_OF_POSITION_MUTATIONS  = 10;
+    public static final int AMOUNT_OF_PRODUCT_MUTATIONS   = 10;
     public static final int AMOUNT_OF_INSERTION_MUTATIONS = 1;
     public static final int AMOUNT_OF_DELETION_MUTATIONS  = 1;
 
@@ -60,6 +60,11 @@ public class GeneticAlgorithm {
         evolvePopulationMatrix(GENERATIONS, population);
     }
 
+    /**
+     * runs the genetic algorithm
+     * @param generations number of generations
+     * @param populationMatrix the initial population for the genetic algorithm
+     */
     public static void evolvePopulationMatrix(int generations, ArrayList<ProductSet> populationMatrix)
     {
         System.out.printf("Starting a Genetic Algorithm with %d generations\n", generations);
@@ -179,6 +184,10 @@ public class GeneticAlgorithm {
         //populationMatrix.get(0).getFilledTruck().printTruckCoronally();
     }
 
+    /**
+     * Method that sots the population based on each individual's fitness
+     * @param arrayList array containing the individuals that will be sorted
+     */
     public static void sortBasedOnFitness(List<ProductSet> arrayList)
     {
         if(PRINT_START_OF_METHOD)
@@ -188,6 +197,11 @@ public class GeneticAlgorithm {
         Collections.sort(arrayList, Collections.reverseOrder());
     }
 
+    /**
+     * Method that computes the sum of the fitnesses of all individuals
+     * @param population list containing the population of individuals
+     * @return the sum of the fitnesses of all individuals
+     */
     public static int getTotalFitness(List<ProductSet> population)
     {
         if(PRINT_START_OF_METHOD){
@@ -201,6 +215,12 @@ public class GeneticAlgorithm {
         return fitnessSum;
     }
 
+    /**
+     * Methods that returns the first 'percent' fittest individuals
+     * @param percent the percent of individuals that must be selected
+     * @param population array containing all the individuals
+     * @return first 'percent' fittest individuals
+     */
     public static ArrayList<ProductSet> getElitistSubPopulation(double percent, List<ProductSet> population)
     {
         if(PRINT_START_OF_METHOD){
@@ -215,6 +235,12 @@ public class GeneticAlgorithm {
         return elitistSubPopulation;
     }
 
+    /**
+     * Method for selecting 'percent' individuals
+     * @param percent the percent of individuals that must be selected
+     * @param population array containing all the individuals
+     * @return the 'percent' individuals selected using the roulette wheel selection
+     */
     public static ArrayList<ProductSet> rouletteWheelSelection(double percent, List<ProductSet> population)
     {
         if(PRINT_START_OF_METHOD){
@@ -247,21 +273,12 @@ public class GeneticAlgorithm {
         return selectedPopulation;
     }
 
-    // k = the number of individuals that will be selected
-    public static ProductSet tournamentSelection(int k, List<ProductSet> population)
-    {
-        ArrayList<ProductSet> selectedPopulation = new ArrayList<>();
-        Random rng = new Random();
-        int n, numberOfIndividuals = 0;
-        while(numberOfIndividuals <= k) {
-            n = rng.nextInt(population.size() - 1);
-            selectedPopulation.add(population.get(n));
-            numberOfIndividuals++;
-        }
-        sortBasedOnFitness(selectedPopulation);
-        return selectedPopulation.get(0);
-    }
 
+    /**
+     * Method that creates new individuals applying crossover on the
+     * @param parents the individuals from which the new ones will be created
+     * @return the new created individuals
+     */
     public static ArrayList<ProductSet> getCrossedOverSubPopulation(List<ProductSet> parents)
     {
         if(PRINT_START_OF_METHOD){
@@ -278,17 +295,13 @@ public class GeneticAlgorithm {
         return crossedOverPopulation;
     }
 
-    public static void replaceSubPopulation(int from, int until,
-                                            List<ProductSet> toBeReplaced, List<ProductSet> replacements)
-    {
-        int k=0;
-        for(int i=from; i<until; i++)
-        {
-            toBeReplaced.add(i, replacements.get(k));
-            k++;
-        }
-    }
 
+    /**
+     * Returns new individuals based on the given product set
+     * @param amount the amount of new individuals
+     * @param baseLine the individuals on which the new individuals are based on
+     * @return an array with specified size with new individuals
+     */
     public static ArrayList<ProductSet> getNewIndividuals(int amount, ProductSet baseLine)
     {
         if(PRINT_START_OF_METHOD){
@@ -319,6 +332,10 @@ public class GeneticAlgorithm {
         return arrayList;
     }
 
+    /**
+     * Method that prints the fitness of each individual
+     * @param population array containing the individuals
+     */
     public static void printFitness(ArrayList<ProductSet> population)
     {
         int count = 0;
@@ -330,6 +347,11 @@ public class GeneticAlgorithm {
         }
     }
 
+    /**
+     * Method that creates and returns a string containing the fitness of each individual
+     * @param population array ontaining all the individuals
+     * @return string containing the fitness of each individual
+     */
     public static String getFitnessString(ArrayList<ProductSet> population)
     {
         String toReturn = "";
