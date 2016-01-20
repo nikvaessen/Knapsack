@@ -276,7 +276,7 @@ public class ProductSet implements Comparable, Cloneable
     @Override
     public ProductSet clone()
     {
-        ProductSet clone = new ProductSet(truck, rng, alleles);
+        ProductSet clone = new ProductSet(truck.clone(), rng, alleles);
         for(Product p : set)
         {
             clone.add(p.clone());
